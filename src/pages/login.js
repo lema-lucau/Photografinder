@@ -9,8 +9,8 @@ export default function Login() {
     }
 
     return(
-        <div className="bg-sky-300 h-screen">
-            <div className="container flex mx-auto p-10">
+        <div className="bg-sky-300 h-screen pb-[64rem]">
+            <div className="container flex mx-auto py-10 px-40">
                 <div className="flex w-2/5">
                     <img className="rounded" src="images\login_page_camera.jpg" />
                 </div>

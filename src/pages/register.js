@@ -12,7 +12,7 @@ export default function Register() {
     
     return(
         <div className="bg-sky-300 h-screen pb-[68rem]">
-            <div className="container flex mx-auto p-10">
+            <div className="container flex mx-auto py-10 px-24">
                 <div className="flex flex-col bg-white w-full items-center border border-gray-400 rounded">
                     <h1 className="text-4xl font-bold italic mt-12">Photografinder</h1>
                     <h3 className="text-xl font-semibold mt-8 mb-12">Account Creation</h3>
@@ -63,7 +63,7 @@ export default function Register() {
                                 name="userType"
                                 value="Photographer"
                             />
-                            <label className="text-lg mx-4" htmlFor="PhotographerRadio">Photographer</label>
+                            <label className="text-lg mx-4" htmlFor="photographerRadio">Photographer</label>
                         </div>
                         
                         <button
