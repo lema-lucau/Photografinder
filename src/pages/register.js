@@ -32,12 +32,7 @@ export default function Register() {
                         >
                             Date of Birth
                         </label>
-                        <input
-                            id="dateOfBirth"
-                            className="text-m w-5/6 bg-gray-200 border border-gray-500 rounded mb-12 p-2"
-                            placeholder="Date of Birth"
-                            type="date"
-                        />
+                        <FormInput id="dateOfBirth" placeholder="dd/mm/yyyy" type="date"/>
 
                         <div className="flex flex-row w-4/6 mx-auto">
                             <label 

@@ -1,5 +1,6 @@
 import { useState, useContext, useEffect} from 'react';
 import { Link, useHistory } from "react-router-dom";
+import FormInput from '../components/formInput';
 import * as ROUTES from '../constants/routes'; 
 
 export default function Login() {
@@ -18,17 +19,9 @@ export default function Login() {
                     <h1 className="text-4xl font-bold italic mt-36">Photografinder</h1>
 
                     {/* Form */}
-                    <form className="flex flex-col items-center w-full" onSubmit={handleLogin} method="POST">
-                        <input 
-                            placeholder="Email"
-                            type="text"
-                            className="text-m w-5/6 bg-gray-200 border border-gray-500 rounded my-12 p-2"
-                        />  
-                        <input 
-                            placeholder="Password"
-                            type="password"
-                            className="text-m w-5/6 bg-gray-200 border border-gray-500 rounded mb-12 p-2"
-                        />  
+                    <form className="flex flex-col items-center w-full my-12" onSubmit={handleLogin} method="POST">
+                        <FormInput id="email" placeholder="Email" type="text"/>
+                        <FormInput id="password" placeholder="Password" type="password"/>
                         <button
                             type="submit"
                             className="text-white bg-sky-300 mb-12 p-1 w-3/6"
