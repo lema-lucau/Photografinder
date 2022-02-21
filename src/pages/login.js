@@ -13,7 +13,7 @@ export default function Login() {
         <div className="bg-sky-300 h-screen pb-[64rem]">
             <div className="container flex mx-auto py-10 px-40">
                 <div className="flex w-2/5">
-                    <img className="rounded" src="images\login_page_camera.jpg" />
+                    <img className="rounded" src="images\login_page_camera.jpg" alt="camera"/>
                 </div>
                 <div className="flex flex-col w-3/5 items-center p-4 bg-white border border-gray-400 rounded">
                     <h1 className="text-4xl font-bold italic mt-36">Photografinder</h1>
