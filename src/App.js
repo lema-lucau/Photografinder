@@ -1,3 +1,4 @@
+import BookingForm from './components/bookingForm';
 import Header from './components/header';
 import Sidebar from './components/sidebar';
 import Login from './pages/login';
@@ -8,9 +9,10 @@ function App() {
   return (
     <>
       <Header />
-      <Profile user="testUser"/>
+      <BookingForm />
+      {/* <Profile user="testUser"/>
       <Login />
-      <Register />
+      <Register /> */}
     </>
   );
 }
