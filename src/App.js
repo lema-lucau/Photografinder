@@ -9,9 +9,8 @@ function App() {
   return (
     <>
       <Header />
-      <BookingForm />
-      {/* <Profile user="testUser"/>
-      <Login />
+      <Profile user="testUser"/>
+      {/* <Login />
       <Register /> */}
     </>
   );
