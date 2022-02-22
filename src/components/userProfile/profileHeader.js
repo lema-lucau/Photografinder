@@ -3,7 +3,7 @@ import { useState } from "react";
 import BookingForm from "../bookingForm";
 
 export default function ProfileHeader({user}) {
-    const isUsersProfile = false;
+    const isUsersProfile = true;
     const numPhotos = 8;
     const numFollowers = 168;
     const minRate = 75
@@ -25,8 +25,11 @@ export default function ProfileHeader({user}) {
         } else {
             return(
                 <>
-                   <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4" href="#">
+                   <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
                         Edit Profile
+                    </button>
+                    <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                        Upload photo
                     </button>
                 </>
             );
