@@ -12,7 +12,11 @@ export default function Photoshoots(){
                     <div className="flex justify-center w-full bg-white py-8">
                         <h1 className="text-2xl">Scheduled Photoshoots</h1>
                     </div>
-                    <div className="">
+                    <div className="overflow-y-auto">
+                        <Photoshoot />
+                        <Photoshoot />
+                        <Photoshoot />
+                        <Photoshoot />
                         <Photoshoot />
                         <Photoshoot />
                         <Photoshoot />
