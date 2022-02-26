@@ -3,7 +3,7 @@ import { useState } from "react";
 import BookingForm from "../bookingForm";
 
 export default function ProfileHeader({user}) {
-    const isUsersProfile = true;
+    const isUsersProfile = false;
     const numPhotos = 8;
     const numFollowers = 168;
     const minRate = 75
