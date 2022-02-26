@@ -19,7 +19,7 @@ export default function BookingForm({photographer}, pending) {
             return(
                 <div className="flex justify-end">
                     <button id="amend" className="text-white px-12 py-2 bg-sky-400 rounded-lg">Amend</button>
-                    <button id="decline" className="text-white px-12 py-2 ml-8 bg-red-400 rounded-lg">Decline</button>
+                    <button id="decline" className="text-white px-12 py-2 ml-8 bg-red-500 rounded-lg">Decline</button>
                     <button id="accept" className="text-white px-12 py-2 ml-8 bg-green-400 rounded-lg">Accept</button>
                 </div> 
             ); 

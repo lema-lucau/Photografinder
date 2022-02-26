@@ -1,8 +1,18 @@
 import { Menu, MenuItem, MenuLabel } from "@mantine/core";
 
-export default function Photoshoot() {
+export default function Photoshoot({size=''}) {
     function BgImg() {
         return(<img src="https://img.icons8.com/material-outlined/30/000000/menu-2.png" alt="three dots menu icon"></img>);
+    }
+
+    if (size === "small") {
+        return(
+            <div className="bg-white grid grid-cols-9 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
+                <p className="text-lg col-span-2 overflow-x-auto">Date</p>
+                <p className="text-lg text-center col-span-5 overflow-x-auto">Photographers_username</p>
+                <p className="text-lg text-right col-span-2 overflow-x-auto">Time</p>
+            </div>
+        );
     }
 
     return(

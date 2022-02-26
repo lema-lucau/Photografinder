@@ -1,6 +1,3 @@
-import BookingForm from './components/bookingForm';
-import Header from './components/header';
-import Sidebar from './components/sidebar';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
 import Photoshoots from './pages/photoshoots';
@@ -12,10 +9,10 @@ function App() {
     <>
       {/* Make modal popup when the user clicks on the photoshoot/edit photoshoot */}
       <Dashboard />
-      {/* <Photoshoots /> */}
-      {/* <Profile user="testUser"/> */}
-      {/* <Login />
-      <Register /> */}
+      <Photoshoots />
+      <Profile user="testUser"/>
+      <Login />
+      <Register />
     </>
   );
 }
