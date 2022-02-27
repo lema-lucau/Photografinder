@@ -17,7 +17,7 @@ export default function Header() {
                 <div className="flex justify-end items-center">
                     <img className="w-14 h-14 mx-2" src="https://img.icons8.com/ios/50/000000/home--v1.png" alt="home"/>
                     <img className="w-14 h-14 mx-8" src="https://img.icons8.com/external-prettycons-lineal-prettycons/96/000000/external-exit-essentials-prettycons-lineal-prettycons.png" alt="log out"/>
-                    <img className="rounded-full w-24 h-24" src="https://via.placeholder.com/96" alt="users profile pic"/>
+                    <img className="rounded-full w-24 h-24" src="https://picsum.photos/96/96" alt="users profile pic"/>
                 </div>
             </div>
         </div>
