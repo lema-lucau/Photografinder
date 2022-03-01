@@ -1,12 +1,11 @@
 import { useState } from "react";
 
-export default function Register() {
+export default function EnterDetails() {
 
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
     
     const handleRegistration = async (event) => {
         event.preventDefault();
-        setDateOfBirth(event.target.elements.dateOfBirth.value); 
     }
     
     return(
@@ -15,7 +14,6 @@ export default function Register() {
                 <div className="flex flex-col bg-white w-full items-center border border-gray-400 rounded">
                     <h1 className="text-4xl font-bold italic mt-12">Photografinder</h1>
                     <h3 className="text-xl font-semibold mt-8 mb-12">Account Creation</h3>
-
 
                     {/* Form */}
                     <form className="flex flex-col w-full items-center" onSubmit={handleRegistration} method="POST">

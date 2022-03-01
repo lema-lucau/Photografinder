@@ -1,8 +1,8 @@
-import { useState} from 'react';
+import { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase-config';
-import * as ROUTES from '../constants/routes'; 
-import Dashboard from './dashboard';
+import { Link, useNavigate } from "react-router-dom"
+import { DASHBOARD, REGISTER } from '../constants/routes';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -10,20 +10,25 @@ export default function Login() {
     
     const [error, setError] = useState("");
 
+    let navigate = useNavigate();
+
     const handleLogin = async (event) => {
         event.preventDefault();
         
         try {
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 
-            // If successful login redirect the user to the Dashboard and store the users uid 
             localStorage.setItem("loggedInUser", JSON.stringify({"uid": userCredentials.user.uid}));
-            setError("");
+            navigate(DASHBOARD, {replace: true});
         } catch (error) {
             console.log(error.message);
             setError(error.message);
         }
     }
+
+    useEffect(() => {
+        document.title = "Login - Photografinder";
+    }, []);
 
     return(
         <div className="bg-sky-300 h-screen pb-[64rem]">
@@ -61,10 +66,10 @@ export default function Login() {
 
             {/* Don't have an account */}
             <div className="container flex flex-col mx-auto items-center bg-white border border-gray-400 rounded p-4 w-4/5">
-                <p>
+                <Link to={REGISTER}>
                     Don't have an account?{` `}
-                    <a className="font-bold text-blue-800" href="#"> Create an account</a>
-                </p>
+                    <span className="font-bold text-blue-800"> Create an account</span>
+                </Link>
             </div>
         </div>
     );

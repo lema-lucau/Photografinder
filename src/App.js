@@ -1,4 +1,5 @@
 import Dashboard from './pages/dashboard';
+import EnterDetails from './pages/enterDetails';
 import Login from './pages/login';
 import Photoshoots from './pages/photoshoots';
 import Profile from './pages/profile';
@@ -10,9 +11,10 @@ function App() {
       {/* Make modal popup when the user clicks on the photoshoot/edit photoshoot */}
       {/* <Dashboard /> */}
       {/* <Photoshoots /> */}
-      {/* <Profile user="testUser"/> */}
-      <Login />
-      {/* <Register /> */}
+      {/* <Login /> */}
+      {/* <Register />
+      <EnterDetails />
+      <Profile user="testUser"/> */}
     </>
   );
 }
