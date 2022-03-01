@@ -8,11 +8,11 @@ function App() {
   return (
     <>
       {/* Make modal popup when the user clicks on the photoshoot/edit photoshoot */}
-      <Dashboard />
-      <Photoshoots />
-      <Profile user="testUser"/>
+      {/* <Dashboard /> */}
+      {/* <Photoshoots /> */}
+      {/* <Profile user="testUser"/> */}
       <Login />
-      <Register />
+      {/* <Register /> */}
     </>
   );
 }

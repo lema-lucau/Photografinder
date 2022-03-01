@@ -1,12 +1,28 @@
-import { useState, useContext, useEffect} from 'react';
-import { Link, useHistory } from "react-router-dom";
-import FormInput from '../components/formInput';
+import { useState} from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase-config';
 import * as ROUTES from '../constants/routes'; 
+import Dashboard from './dashboard';
 
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const [error, setError] = useState("");
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        
+        try {
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+
+            // If successful login redirect the user to the Dashboard and store the users uid 
+            localStorage.setItem("loggedInUser", JSON.stringify({"uid": userCredentials.user.uid}));
+            setError("");
+        } catch (error) {
+            console.log(error.message);
+            setError(error.message);
+        }
     }
 
     return(
@@ -20,11 +36,21 @@ export default function Login() {
 
                     {/* Form */}
                     <form className="flex flex-col items-center w-full my-12" onSubmit={handleLogin} method="POST">
-                        <FormInput id="email" placeholder="Email" type="text"/>
-                        <FormInput id="password" placeholder="Password" type="password"/>
+                        <input 
+                            id="email" placeholder="Email" type="text" onChange={(event) => setEmail(event.target.value)}
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                        />
+                        
+                        <input 
+                            id="password" placeholder="Password" type="password" onChange={(event) => setPassword(event.target.value)}
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                        />
+                        
+                        <p className="text-center text-red-500 pb-8">{`${error}`}</p>
+
                         <button
                             type="submit"
-                            className="text-white bg-sky-300 mb-12 p-1 w-3/6"
+                            className="text-white bg-sky-300 rounded mb-12 p-2 w-3/6"
                         >
                             Log In
                         </button>
