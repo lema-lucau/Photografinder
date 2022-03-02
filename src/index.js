@@ -8,7 +8,7 @@ import * as ROUTES from './constants/routes';
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
 import Register from './pages/register';
-import EnterDetails from './pages/enterDetails';
+import SetupProfile from './pages/setupProfile';
 import Profile from './pages/profile';
 import Photoshoots from './pages/photoshoots';
 
@@ -18,7 +18,7 @@ ReactDOM.render(
       <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
       <Route path={ROUTES.LOGIN} element={<Login />} />
       <Route path={ROUTES.REGISTER} element={<Register />} />
-      <Route path={ROUTES.ENTER_DETAILS} element={<EnterDetails />} />
+      <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
       <Route path={ROUTES.PROFILE} element={<Profile />} />
       <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
     </Routes>

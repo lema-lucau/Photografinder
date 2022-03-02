@@ -1,5 +1,5 @@
 import Dashboard from './pages/dashboard';
-import EnterDetails from './pages/enterDetails';
+import EnterDetails from './pages/setupProfile';
 import Login from './pages/login';
 import Photoshoots from './pages/photoshoots';
 import Profile from './pages/profile';

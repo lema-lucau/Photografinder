@@ -19,7 +19,7 @@ export default function Login() {
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 
             localStorage.setItem("loggedInUser", JSON.stringify({"uid": userCredentials.user.uid}));
-            navigate(DASHBOARD, {replace: true});
+            navigate(DASHBOARD);
         } catch (error) {
             console.log(error.message);
             setError(error.message);
