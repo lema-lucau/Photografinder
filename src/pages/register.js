@@ -8,7 +8,6 @@ export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [confirmedPassword, setConfirmedPassword] = useState("");
-    const [uid, setUid] = useState("");
 
     const [error, setError] = useState("");
 
@@ -22,7 +21,7 @@ export default function Register() {
             
             try {
                 const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-                setUid(userCredentials.user.uid);
+                const uid = userCredentials.user.uid;
                 
                 localStorage.setItem("loggedInUser", JSON.stringify({"uid" : uid}));
                 navigate(SETUP_PROFILE);

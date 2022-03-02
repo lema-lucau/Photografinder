@@ -1,6 +1,4 @@
 import { useEffect, useState } from "react";
-import { DB_CONN_STRING } from "../constants/mongoDBConn";
-import { connectToDb } from "../libs/mongoDB";
 
 export default function SetupProfile() {
     const [userType, setUserType] = useState("");
@@ -14,9 +12,6 @@ export default function SetupProfile() {
     const [location, setLocation] = useState("");
 
     const [dateOfBirth, setDateOfBirth] = useState(new Date());
-
-    console.log(DB_CONN_STRING);
-    connectToDb();
 
     const handleRegistration = async (event) => {
         event.preventDefault();
