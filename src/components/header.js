@@ -1,6 +1,19 @@
+import { signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
+import { LOGIN } from "../constants/routes";
+import { auth } from "../firebase-config";
 import Logo from "./logo";
 
 export default function Header() {
+
+    let navigate = useNavigate();
+
+    async function logOut() {
+        await signOut(auth);
+
+        navigate(LOGIN);
+    }
+
     return(
         <div className=" bg-white w-full">
             <div className="grid grid-rows-1 grid-flow-col items-center border border-b-black py-2 px-12">
@@ -16,7 +29,7 @@ export default function Header() {
                 </div>
                 <div className="flex justify-end items-center">
                     <img className="w-14 h-14 mx-2" src="https://img.icons8.com/ios/50/000000/home--v1.png" alt="home"/>
-                    <img className="w-14 h-14 mx-8" src="https://img.icons8.com/external-prettycons-lineal-prettycons/96/000000/external-exit-essentials-prettycons-lineal-prettycons.png" alt="log out"/>
+                    <img className="w-14 h-14 mx-8" src="https://img.icons8.com/external-prettycons-lineal-prettycons/96/000000/external-exit-essentials-prettycons-lineal-prettycons.png" alt="log out" onClick={logOut} />
                     <img className="rounded-full w-24 h-24" src="https://picsum.photos/96/96" alt="users profile pic"/>
                 </div>
             </div>

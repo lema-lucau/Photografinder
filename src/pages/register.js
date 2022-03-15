@@ -21,9 +21,9 @@ export default function Register() {
             
             try {
                 const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
-                const uid = userCredentials.user.uid;
+                const user = userCredentials.user;
                 
-                localStorage.setItem("loggedInUser", JSON.stringify({"uid" : uid}));
+                localStorage.setItem("loggedInUser", JSON.stringify(user));
                 navigate(SETUP_PROFILE);
             } catch (error) {
                 setError(error.message);
