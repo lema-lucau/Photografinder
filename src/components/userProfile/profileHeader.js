@@ -6,11 +6,11 @@ export default function ProfileHeader({user}) {
     const isUsersProfile = false;
     const numPhotos = 8;
     const numFollowers = 168;
-    const minRate = 75
+    const minRate = 75;
 
     const [opened, setOpened] = useState(false);
 
-    function ProfileButtons() {
+    const ProfileButtons = () => {
         if (!isUsersProfile) {
             return(
                 <>
@@ -39,7 +39,7 @@ export default function ProfileHeader({user}) {
     return(
         <div className="grid grid-cols-2 gap-4 border border-black px-12">
             {/* Profile info */}
-            <div className="flex flex-col justify-between py-6">
+            <div className="flex flex-col justify-center py-6">
                 <p className="pt-2">Username</p>
                 <p className="font-bold pt-4">Full Name</p>
                 {/* Set character limit of 500  for about me section*/}

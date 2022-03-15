@@ -1,18 +1,29 @@
+import {Routes, Route} from "react-router-dom";
+import * as ROUTES from './constants/routes';
+import UserContext from "./context/UserContext";
 import Dashboard from './pages/dashboard';
 import Login from './pages/login';
-import Photoshoots from './pages/photoshoots';
-import Profile from './pages/profile';
 import Register from './pages/register';
+import SetupProfile from './pages/setupProfile';
+import Profile from './pages/profile';
+import Photoshoots from './pages/photoshoots';
+import LoggedInUserExists from './components/helpers/loggedInUserExists';
 
 function App() {
+  const user = LoggedInUserExists();
+  
   return (
     <>
-      {/* Make modal popup when the user clicks on the photoshoot/edit photoshoot */}
-      <Dashboard />
-      <Photoshoots />
-      <Profile user="testUser"/>
-      <Login />
-      <Register />
+      <UserContext.Provider value={user}>
+        <Routes>
+          <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+          <Route path={ROUTES.LOGIN} element={<Login />} />
+          <Route path={ROUTES.REGISTER} element={<Register />} />
+          <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
+          <Route path={ROUTES.PROFILE} element={<Profile />} />
+          <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
+        </Routes>
+      </UserContext.Provider>
     </>
   );
 }

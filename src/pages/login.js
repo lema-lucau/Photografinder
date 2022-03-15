@@ -1,13 +1,34 @@
-import { useState, useContext, useEffect} from 'react';
-import { Link, useHistory } from "react-router-dom";
-import FormInput from '../components/formInput';
-import * as ROUTES from '../constants/routes'; 
+import { useEffect, useState } from 'react';
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { auth } from '../firebase-config';
+import { Link, useNavigate } from "react-router-dom"
+import { DASHBOARD, REGISTER } from '../constants/routes';
 
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    
+    const [error, setError] = useState("");
+
+    let navigate = useNavigate();
 
     const handleLogin = async (event) => {
         event.preventDefault();
+        
+        try {
+            const userCredentials = await signInWithEmailAndPassword(auth, email, password);
+
+            localStorage.setItem("loggedInUser", JSON.stringify(userCredentials.user));
+            navigate(DASHBOARD);
+        } catch (error) {
+            console.log(error.message);
+            setError(error.message);
+        }
     }
+
+    useEffect(() => {
+        document.title = "Login - Photografinder";
+    }, []);
 
     return(
         <div className="bg-sky-300 h-screen pb-[64rem]">
@@ -20,11 +41,21 @@ export default function Login() {
 
                     {/* Form */}
                     <form className="flex flex-col items-center w-full my-12" onSubmit={handleLogin} method="POST">
-                        <FormInput id="email" placeholder="Email" type="text"/>
-                        <FormInput id="password" placeholder="Password" type="password"/>
+                        <input 
+                            id="email" placeholder="Email" type="text" onChange={(event) => setEmail(event.target.value)}
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                        />
+                        
+                        <input 
+                            id="password" placeholder="Password" type="password" onChange={(event) => setPassword(event.target.value)}
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                        />
+                        
+                        <p className="text-center text-red-500 pb-8">{`${error}`}</p>
+
                         <button
                             type="submit"
-                            className="text-white bg-sky-300 mb-12 p-1 w-3/6"
+                            className="text-white bg-sky-300 rounded mb-12 p-2 w-3/6"
                         >
                             Log In
                         </button>
@@ -35,10 +66,10 @@ export default function Login() {
 
             {/* Don't have an account */}
             <div className="container flex flex-col mx-auto items-center bg-white border border-gray-400 rounded p-4 w-4/5">
-                <p>
+                <Link to={REGISTER}>
                     Don't have an account?{` `}
-                    <a className="font-bold text-blue-800" href="#"> Create an account</a>
-                </p>
+                    <span className="font-bold text-blue-800"> Create an account</span>
+                </Link>
             </div>
         </div>
     );
