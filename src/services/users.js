@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const usersApi = axios.create({
-    baseURL: "http://localhost:9999/users/"
+    baseURL: "http://photografinder.xyz/users/"
 });
 
 
@@ -11,7 +11,6 @@ export async function createNewUser(user) {
         await usersApi.post("add", user)
         .then(response => response.data);
 
-    console.log(newUser);
     return newUser;
 }
 
@@ -21,7 +20,6 @@ export async function deleteAUser(userId) {
         await usersApi.delete(`delete/${userId}`)
         .then(response => response.data);
 
-    console.log(deletedUser);
     return deletedUser;
 } 
 
@@ -31,7 +29,6 @@ export async function getUserByUsername(username) {
         await usersApi.get(`username/${username}`)
         .then(response => response.data);
         
-    console.log(user);
     return(user);
 }
 
@@ -40,7 +37,6 @@ export async function getUserByUserId(userId) {
         await usersApi.get(userId)
         .then(response => response.data);
         
-    console.log(user);
     return(user);
 }
 
@@ -49,7 +45,6 @@ export async function getUserType(userId) {
         await usersApi.get(`type/${userId}`)
         .then(response => response.data);
         
-    console.log(type);
     return(type);
 }
 
@@ -61,7 +56,6 @@ export async function getUsersFollowing(userId) {
     })
     .then(response => response.data);
 
-    console.log(users);
     return(users);
 }
 
@@ -73,7 +67,6 @@ export async function getUsersFollowers(userId) {
     })
     .then(response => response.data);
 
-    console.log(users);
     return(users);
 } 
 
@@ -83,7 +76,6 @@ export async function updateUserDetails(user) {
         await usersApi.patch("update", user)
         .then(response => response.data);
 
-    console.log(updatedUser);
     return updatedUser;
 } 
 
@@ -94,7 +86,6 @@ export async function updateProfilePicUrl(userId, newUrl) {
             profilePicUrl: newUrl})
         .then(response => response.data);
 
-    console.log(updatedUser);
     return updatedUser;
 } 
 
@@ -103,7 +94,6 @@ export async function followPhotographer(photographerId, userId) {
         await usersApi.patch(`follow/${photographerId}`, { uid: userId })
         .then(response => response.data);
 
-    console.log(user);
     return user;
 } 
 
@@ -112,6 +102,5 @@ export async function unfollowPhotographer(photographerId, userId) {
         await usersApi.patch(`unfollow/${photographerId}`, { uid: userId })
         .then(response => response.data);
 
-    console.log(user);
     return user;
 } 

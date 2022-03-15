@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const photoshootsApi = axios.create({
-    baseURL: "http://localhost:9999/photoshoots/"
+    baseURL: "http://photografinder.xyz/photoshoots/"
 });
 
 // POST
@@ -10,7 +10,6 @@ export async function createPhotoshoot(photoshootDetails) {
         await photoshootsApi.post("add", photoshootDetails)
         .then(response => response.data);
 
-    console.log(newPhotoshoot);
     return newPhotoshoot;
 }
 
@@ -20,7 +19,6 @@ export async function deletePhotoshoot(photoshootId) {
         await photoshootsApi.delete(`delete/${photoshootId}`)
         .then(response => response.data);
 
-    console.log(deletedPhotoshoot);
     return deletedPhotoshoot;
 }
 
@@ -30,7 +28,6 @@ export async function amendPhotoshoot(photoshootId, photoshootDetails) {
         await photoshootsApi.put(`amend/${photoshootId}`, photoshootDetails)
         .then(response => response.data);
 
-    console.log(amendedPhotoshoot);
     return amendedPhotoshoot;
 }
 
@@ -40,7 +37,6 @@ export async function updatePhotoshootStatus(photoshootId, newStatus) {
         await photoshootsApi.patch(`update-status/${photoshootId}`, { status: newStatus })
         .then(response => response.data);
 
-    console.log(updatedPhotoshoot);
     return updatedPhotoshoot;
 }
 
@@ -50,7 +46,6 @@ export async function getPhotoshootById(photoshootId) {
         await photoshootsApi.get(`retrieve/${photoshootId}`)
         .then(response => response.data);
 
-    console.log(photoshoot);
     return photoshoot;
 }
 
@@ -63,7 +58,6 @@ export async function getUsersPhotoshoots(userId) {
         })
         .then(response => response.data);
 
-    console.log(photoshoots);
     return photoshoots;
 }
 
@@ -77,7 +71,6 @@ export async function getUserPhotoshootsByStatus(userId, status) {
         })
         .then(response => response.data);
 
-    console.log(photoshoots);
     return photoshoots;
 }
 
@@ -92,6 +85,5 @@ export async function getUserPhotoshootByDateStartTime(userId, date, startTime) 
         })
         .then(response => response.data);
 
-    console.log(photoshoot);
     return photoshoot;
 }

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const postsApi = axios.create({
-    baseURL: "http://localhost:9999/posts/"
+    baseURL: "http://photografinder.xyz/posts/"
 });
 
 // POST
@@ -10,7 +10,6 @@ export async function uploadPost(post) {
         await postsApi.post("add", post)
         .then(response => response.data);
 
-    console.log(newPost);
     return newPost;
 }
 
@@ -20,7 +19,6 @@ export async function deletePost(postId) {
         await postsApi.delete(`delete/${postId}`)
         .then(response => response.data);
 
-    console.log(deletedPost);
     return deletedPost;
 }
 
@@ -30,7 +28,6 @@ export async function addLikeToPost(postId, userId) {
         await postsApi.patch(`addLike/${postId}`, { uid: userId })
         .then(response => response.data);
 
-    console.log(likedPost);
     return likedPost;
 }
 
@@ -39,7 +36,6 @@ export async function removeLikeFromPost(postId, userId) {
         await postsApi.patch(`removeLike/${postId}`, { uid: userId })
         .then(response => response.data);
 
-    console.log(unlikedPost);
     return unlikedPost;
 }
 
@@ -49,7 +45,6 @@ export async function getPostById(postId) {
         await postsApi.get(`retrieve/${postId}`)
         .then(response => response.data);
 
-    console.log(post);
     return post;
 }
 
@@ -58,7 +53,6 @@ export async function getAllPhotographerPosts(userId) {
         await postsApi.get(`retrieve/photographer/${userId}`)
         .then(response => response.data);
 
-    console.log(posts);
     return posts;
 }
 
@@ -67,6 +61,5 @@ export async function getPostLikes(postId) {
         await postsApi.get(`retrieveLikes/${postId}`)
         .then(response => response.data);
 
-    console.log(likes);
     return likes;
 }
