@@ -18,9 +18,9 @@ export default function Dashboard() {
                             <h1 className="text-xl py-6">Scheduled Photoshoots</h1>
                             <span className="border-b border-black w-full"/>
                             <div className="w-full h-full bg-gray-100 overflow-y-auto">
-                                <Photoshoot size="small"/>
-                                <Photoshoot size="small"/>
-                                <Photoshoot size="small"/>
+                                <Photoshoot size="small" date="02-02-2022" username="lema_photography" time="09:00 - 10:00"/>
+                                <Photoshoot size="small" date="18-04-2022" username="johns_shots" time="13:30 - 15:00"/>
+                                <Photoshoot size="small" date="27-08-2022" username="alice5391" time="16:00 - 18:00"/>
                             </div>
                         </div>
                     </div>
