@@ -66,16 +66,6 @@ export default function Photoshoots() {
         }, 300);
     }, []);
 
-    const concatTime = (startTime, endTime) => {return startTime + " - " + endTime};
-    const formatDate = (date) => {
-        const day = date.substring(8, 10);
-        const month = date.substring(5,7);
-        const year = date.substring(0,4);
-
-        return day + "/" + month + "/" + year;
-    }
-
-
     return(
         <>
             <Header />
@@ -93,11 +83,7 @@ export default function Photoshoots() {
                                     return(
                                         <Photoshoot 
                                             key={photoshoot.id}
-                                            id={photoshoot.id}
-                                            date={formatDate(photoshoot.date)}
-                                            username={photoshoot.username}
-                                            location={photoshoot.location}
-                                            time={concatTime(photoshoot.startTime, photoshoot.endTime)}
+                                            {...photoshoot}
                                         />
                                     );
                                 })
@@ -118,11 +104,7 @@ export default function Photoshoots() {
                                     return (
                                         <Photoshoot 
                                             key={photoshoot.id}
-                                            id={photoshoot.id}
-                                            date={formatDate(photoshoot.date)}
-                                            username={photoshoot.username}
-                                            location={photoshoot.location}
-                                            time={concatTime(photoshoot.startTime, photoshoot.endTime)}
+                                            {...photoshoot}
                                         />
                                     );
                                 })

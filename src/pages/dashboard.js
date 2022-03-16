@@ -1,9 +1,49 @@
+import { useState, useEffect } from "react";
 import Header from "../components/header";
 import Photoshoot from "../components/photoshoot";
 import Sidebar from "../components/sidebar";
 import Timeline from "../components/timeline";
+import { CONFIRMED } from "../constants/photoshoot";
+import { getUserPhotoshootsByStatus } from "../services/photoshoots";
+import { getUserByUserId } from "../services/users";
 
 export default function Dashboard() {
+    const [photoshoots , setPhotoshoots] = useState(null);
+    
+    useEffect(() => {
+        const firebaseUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        let user;
+
+        const getUser = async () => {
+            user = await getUserByUserId(firebaseUser.uid);
+        }
+
+        const getPhotoshoots = async () => {
+            const photoshoots = await getUserPhotoshootsByStatus(firebaseUser.uid, CONFIRMED);
+
+            // Add the photographers username to the photoshoot
+            photoshoots.map(async (photoshoot) => {      
+
+                // If logged in user is a photographer display clients name
+                if (user.type === "Photographer") {
+                    await getUserByUserId(photoshoot.clientId)
+                    .then(data => photoshoot.username = data.username);
+                } else if (user.type === "Client") {
+                    // If logged in user is a client display photgraphers name
+                    await getUserByUserId(photoshoot.photographerId)
+                    .then(data => photoshoot.username = data.username);
+                }
+            });
+
+            setTimeout(() => {setPhotoshoots(photoshoots)}, 300)
+        }
+
+        getUser();
+        setTimeout(() => {
+            getPhotoshoots();
+        }, 300);
+    }, []);
+
     return(
         <>
             <Header />
@@ -18,9 +58,19 @@ export default function Dashboard() {
                             <h1 className="text-xl py-6">Scheduled Photoshoots</h1>
                             <span className="border-b border-black w-full"/>
                             <div className="w-full h-full bg-gray-100 overflow-y-auto">
-                                <Photoshoot size="small" date="02-02-2022" username="lema_photography" time="09:00 - 10:00"/>
-                                <Photoshoot size="small" date="18-04-2022" username="johns_shots" time="13:30 - 15:00"/>
-                                <Photoshoot size="small" date="27-08-2022" username="alice5391" time="16:00 - 18:00"/>
+                                {photoshoots !== null ?
+                                    photoshoots.map((photoshoot) => {
+                                        return (
+                                            <Photoshoot 
+                                                key={photoshoot.id}
+                                                size="small"
+                                                {...photoshoot}
+                                            />
+                                        );
+                                    })
+                                    : 
+                                    null
+                                }
                             </div>
                         </div>
                     </div>
