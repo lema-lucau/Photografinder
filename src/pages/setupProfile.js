@@ -1,6 +1,11 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { DASHBOARD } from "../constants/routes";
+import { checkEmailExists, createNewUser, getUserByUsername } from "../services/users";
 
 export default function SetupProfile() {
+    const [uid, setUid] = useState(JSON.parse(localStorage.getItem("loggedInUser")).uid );
+    const [email, setEmail] = useState(JSON.parse(localStorage.getItem("loggedInUser")).email );
     const [userType, setUserType] = useState("");
 
     const [firstName, setFirstName] = useState("");
@@ -11,17 +16,80 @@ export default function SetupProfile() {
     const [minRate, setMinRate] = useState("");
     const [location, setLocation] = useState("");
 
-    const [dateOfBirth, setDateOfBirth] = useState(new Date());
+    const [error, setError] = useState("");
+
+    let navigate = useNavigate();
 
     const handleRegistration = async (event) => {
         event.preventDefault();
 
-        if (userType === "Client") {
-            setMinRate("");
-            setLocation("");
+        // Check there are no empty input fields
+        if (emptyInputFields()) {
+            return;
         }
 
-        console.log(userType, firstName, lastName, username, bio, minRate, location, dateOfBirth);
+        // Check if that username exists already
+        const user = await getUserByUsername(username);
+
+        if(user !== null) {
+            setError("Username already exists");
+            return;
+        } else {
+            setError("");
+        }
+
+        // JSON object for the new user that will be created
+        let newUser = {
+            uid: uid,
+            type: userType,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            username: username,
+            bio: bio,
+            location: location,
+            minRate: minRate,
+        };
+
+        if (userType === "Client") {
+            delete newUser.minRate;
+            delete newUser.location;
+        }
+
+        try {
+            const createdUser = await createNewUser(newUser);
+            
+            // User created successfully
+            if (createdUser !== null) {
+                navigate(DASHBOARD);
+            }
+        } catch (error) {
+            setError(error);
+            return;
+        }
+    }
+
+    function emptyInputFields() {
+        let errorMessage = "";
+
+        const userTypeValue = document.querySelector("input[name='userType']:checked"); 
+        const fName = document.getElementById("firstName");
+        const lName = document.getElementById("lastName");
+        const username = document.getElementById("username");
+
+        
+        if (userTypeValue === null || fName.value === "" || lName.value === "" || username.value === "") {
+            errorMessage = "User type, first name, last name or username cannot be empty"
+        }
+
+        if (errorMessage !== "") {
+            setError(errorMessage);
+            return true;
+        } else {
+            setError("");
+        }
+
+        return false;
     }
 
     useEffect(() => {
@@ -82,18 +150,6 @@ export default function SetupProfile() {
                             className="text-m bg-gray-200 border border-gray-400 rounded w-5/6 mb-12 p-2"
                         />
 
-                        <label 
-                            htmlFor="dateOfBirth"
-                            className="w-5/6 text-black text-xl font-medium mb-4"
-                        >
-                            Date of Birth
-                        </label>
-                        <input 
-                            id="dateOfBirth" placeholder="dd/mm/yyyy" type="date"
-                            onChange={(event) => setDateOfBirth(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
-                        />
-
                         {/* Choose which form to display  */}
                         <div className={userType === "Client" ? "hidden" : "flex flex-col w-full items-center"}>
                             <input 
@@ -108,6 +164,7 @@ export default function SetupProfile() {
                             />
                         </div>
 
+                        <p className="text-center text-red-500 pb-8">{error}</p>
                         <button
                             type="submit"
                             className="text-white bg-sky-300 mt-8 mb-12 p-2 w-3/6"
