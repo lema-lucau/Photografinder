@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD } from "../constants/routes";
-import { checkEmailExists, createNewUser, getUserByUsername } from "../services/users";
+import { createNewUser, getUserByUsername } from "../services/users";
 
 export default function SetupProfile() {
     const [uid, setUid] = useState(JSON.parse(localStorage.getItem("loggedInUser")).uid );
