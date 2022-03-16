@@ -1,10 +1,23 @@
 import { signOut } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
-import { LOGIN } from "../constants/routes";
+import { Link, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { DASHBOARD, LOGIN } from "../constants/routes";
 import { auth } from "../firebase-config";
 import Logo from "./logo";
+import { getUserByUserId } from "../services/users";
 
 export default function Header() {
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const firebaseUser = JSON.parse(localStorage.getItem("loggedInUser"));
+
+        const getUser = async () => {
+            const user = await getUserByUserId(firebaseUser.uid);
+            setUser(user);
+        }
+        getUser();
+    }, [])
 
     let navigate = useNavigate();
 
@@ -28,9 +41,19 @@ export default function Header() {
                     />
                 </div>
                 <div className="flex justify-end items-center">
-                    <img className="w-14 h-14 mx-2" src="https://img.icons8.com/ios/50/000000/home--v1.png" alt="home"/>
-                    <img className="w-14 h-14 mx-8" src="https://img.icons8.com/external-prettycons-lineal-prettycons/96/000000/external-exit-essentials-prettycons-lineal-prettycons.png" alt="log out" onClick={logOut} />
-                    <img className="rounded-full w-24 h-24" src="https://picsum.photos/96/96" alt="users profile pic"/>
+                    <Link to={DASHBOARD}>
+                        <img className="w-14 h-14 mx-2 cursor-pointer" src="https://img.icons8.com/ios/50/000000/home--v1.png" alt="home"/>
+                    </Link>
+
+                    <img className="w-14 h-14 mx-8 cursor-pointer" src="https://img.icons8.com/external-prettycons-lineal-prettycons/96/000000/external-exit-essentials-prettycons-lineal-prettycons.png" alt="log out" onClick={logOut} />
+
+                    {user?.username ? 
+                        <Link to={`/p/${user.username}`}>
+                            <img className="rounded-full w-24 h-24 cursor-pointer" src="https://picsum.photos/96/96" alt="users profile pic"/>
+                        </Link>
+                        :
+                        null
+                    }
                 </div>
             </div>
         </div>
