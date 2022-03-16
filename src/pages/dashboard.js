@@ -1,9 +1,50 @@
+import { useState, useEffect } from "react";
 import Header from "../components/header";
 import Photoshoot from "../components/photoshoot";
 import Sidebar from "../components/sidebar";
 import Timeline from "../components/timeline";
+import { CONFIRMED } from "../constants/photoshoot";
+import { LOGGED_IN_USER } from "../constants/user";
+import { getUserPhotoshootsByStatus } from "../services/photoshoots";
+import { getUserByUserId } from "../services/users";
 
 export default function Dashboard() {
+    const [photoshoots , setPhotoshoots] = useState(null);
+    
+    useEffect(() => {
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+        let user;
+
+        const getUser = async () => {
+            user = await getUserByUserId(firebaseUser.uid);
+        }
+
+        const getPhotoshoots = async () => {
+            const photoshoots = await getUserPhotoshootsByStatus(firebaseUser.uid, CONFIRMED);
+
+            // Add the photographers username to the photoshoot
+            photoshoots.map(async (photoshoot) => {      
+
+                // If logged in user is a photographer display clients name
+                if (user.type === "Photographer") {
+                    await getUserByUserId(photoshoot.clientId)
+                    .then(data => photoshoot.username = data.username);
+                } else if (user.type === "Client") {
+                    // If logged in user is a client display photgraphers name
+                    await getUserByUserId(photoshoot.photographerId)
+                    .then(data => photoshoot.username = data.username);
+                }
+            });
+
+            setTimeout(() => {setPhotoshoots(photoshoots)}, 300)
+        }
+
+        getUser();
+        setTimeout(() => {
+            getPhotoshoots();
+        }, 300);
+    }, []);
+
     return(
         <>
             <Header />
@@ -18,9 +59,19 @@ export default function Dashboard() {
                             <h1 className="text-xl py-6">Scheduled Photoshoots</h1>
                             <span className="border-b border-black w-full"/>
                             <div className="w-full h-full bg-gray-100 overflow-y-auto">
-                                <Photoshoot size="small"/>
-                                <Photoshoot size="small"/>
-                                <Photoshoot size="small"/>
+                                {photoshoots !== null ?
+                                    photoshoots.map((photoshoot) => {
+                                        return (
+                                            <Photoshoot 
+                                                key={photoshoot.id}
+                                                size="small"
+                                                {...photoshoot}
+                                            />
+                                        );
+                                    })
+                                    : 
+                                    null
+                                }
                             </div>
                         </div>
                     </div>

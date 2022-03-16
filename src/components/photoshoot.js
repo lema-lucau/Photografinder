@@ -1,26 +1,35 @@
 import { Menu, MenuItem, MenuLabel } from "@mantine/core";
 
-export default function Photoshoot({size=''}) {
+export default function Photoshoot({id, size='', date, username, location, startTime, endTime}) {
     function BgImg() {
         return(<img src="https://img.icons8.com/material-outlined/30/000000/menu-2.png" alt="three dots menu icon"></img>);
+    }
+
+    const concatTime = (startTime, endTime) => {return startTime + " - " + endTime};
+    const formatDate = (date) => {
+        const day = date.substring(8, 10);
+        const month = date.substring(5,7);
+        const year = date.substring(0,4);
+
+        return day + "/" + month + "/" + year;
     }
 
     if (size === "small") {
         return(
             <div className="bg-white grid grid-cols-9 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
-                <p className="text-lg col-span-2 overflow-x-auto">Date</p>
-                <p className="text-lg text-center col-span-5 overflow-x-auto">Photographers_username</p>
-                <p className="text-lg text-right col-span-2 overflow-x-auto">Time</p>
+                <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+                <p className="text-lg italic font-semibold text-center col-span-5 overflow-x-auto">{username}</p>
+                <p className="text-lg italic font-semibold text-right col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
             </div>
         );
     }
 
     return(
         <div className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
-            <p className="text-lg col-span-2 overflow-x-auto">Date</p>
-            <p className="text-lg col-span-3 overflow-x-auto">Photographers_username</p>
-            <p className="text-lg col-span-4 overflow-x-auto">Location</p>
-            <p className="text-lg col-span-2 overflow-x-auto">Time</p>
+            <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+            <p className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>
+            <p className="text-lg italic font-semibold col-span-4 overflow-x-auto">{location}</p>
+            <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
             <div className="col-span-1">
                 {/* Dropdown menu that will appear when user clicks the three dots */}
                 <Menu 

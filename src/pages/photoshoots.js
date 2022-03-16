@@ -1,8 +1,72 @@
+import { useState, useEffect } from "react";
 import Header from "../components/header";
 import Photoshoot from "../components/photoshoot";
 import Sidebar from "../components/sidebar";
+import { getUserByUserId } from "../services/users"; 
+import { getUserPhotoshootsByStatus } from "../services/photoshoots";
+import { CONFIRMED, PENDING } from "../constants/photoshoot"
+import { LOGGED_IN_USER } from "../constants/user";
 
 export default function Photoshoots() {
+    const [scheduledPhotoshoots, setScheduledPhotoshoots] = useState(null);
+    const [pendingPhotoshoots, setPendingPhotoshoots] = useState(null);
+
+    useEffect(() => {
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+        let user;
+
+        const getUser = async () => {
+            user = await getUserByUserId(firebaseUser.uid);
+        }
+
+        const getScheduledPhotoshoots = async () => {
+            const photoshoots = await getUserPhotoshootsByStatus(firebaseUser.uid, CONFIRMED);
+
+            // Add the photographers username to the photoshoot
+            photoshoots.map(async (photoshoot) => {      
+
+                // If logged in user is a photographer display clients name
+                if (user.type === "Photographer") {
+                    await getUserByUserId(photoshoot.clientId)
+                    .then(data => photoshoot.username = data.username);
+                } else if (user.type === "Client") {
+                    // If logged in user is a client display photgraphers name
+                    await getUserByUserId(photoshoot.photographerId)
+                    .then(data => photoshoot.username = data.username);
+                }
+            });
+
+            setTimeout(() => {setScheduledPhotoshoots(photoshoots)}, 300)
+        }
+
+        const getPendingPhotoshoots = async () => {
+            const photoshoots = await getUserPhotoshootsByStatus(firebaseUser.uid, PENDING);
+
+            // Add the photographers username to the photoshoot
+            photoshoots.map(async (photoshoot) => {
+
+                // If logged in user is a photographer display clients name
+                if (user.type === "Photographer") {
+                    await getUserByUserId(photoshoot.clientId)
+                    .then(data => photoshoot.username = data.username);
+                } else if (user.type === "Client") {
+                    // If logged in user is a client display photgraphers name
+                    await getUserByUserId(photoshoot.photographerId)
+                    .then(data => photoshoot.username = data.username);
+                }
+            });
+
+            // Set timeout to make sure username is received
+            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 300)
+        }
+
+        getUser();
+        setTimeout(() => {
+            getScheduledPhotoshoots();
+            getPendingPhotoshoots();
+        }, 300);
+    }, []);
+
     return(
         <>
             <Header />
@@ -15,10 +79,18 @@ export default function Photoshoots() {
                             <h1 className="text-2xl">Scheduled Photoshoots</h1>
                         </div>
                         <div className="overflow-y-auto">
-                            <Photoshoot />
-                            <Photoshoot />
-                            <Photoshoot />
-                            <Photoshoot />
+                            {scheduledPhotoshoots !== null ?
+                                scheduledPhotoshoots.map((photoshoot) => {
+                                    return(
+                                        <Photoshoot 
+                                            key={photoshoot.id}
+                                            {...photoshoot}
+                                        />
+                                    );
+                                })
+                                : 
+                                null
+                            }
                         </div>
                     </div>
 
@@ -28,10 +100,18 @@ export default function Photoshoots() {
                             <h1 className="text-2xl">Pending Photoshoots</h1>
                         </div>
                         <div className="overflow-y-auto">
-                            <Photoshoot />
-                            <Photoshoot />
-                            <Photoshoot />
-                            <Photoshoot />
+                            {pendingPhotoshoots !== null ?
+                                pendingPhotoshoots.map((photoshoot) => {
+                                    return (
+                                        <Photoshoot 
+                                            key={photoshoot.id}
+                                            {...photoshoot}
+                                        />
+                                    );
+                                })
+                                : 
+                                null
+                            }
                         </div>
                     </div>
                 </div>

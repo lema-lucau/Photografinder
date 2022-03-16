@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { DASHBOARD, PHOTOSHOOTS } from "../../constants/routes";
 import Icon from "./icon";
 import { getUserByUserId } from "../../services/users";
+import { LOGGED_IN_USER } from "../../constants/user";
 
 export default function Sidebar() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const firebaseUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
 
         const getUser = async () => {
             const user = await getUserByUserId(firebaseUser.uid);

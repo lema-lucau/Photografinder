@@ -2,6 +2,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SETUP_PROFILE } from "../constants/routes";
+import { LOGGED_IN_USER } from "../constants/user";
 import { auth } from "../firebase-config";
 
 export default function Register() {
@@ -23,7 +24,7 @@ export default function Register() {
                 const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
                 const user = userCredentials.user;
                 
-                localStorage.setItem("loggedInUser", JSON.stringify(user));
+                localStorage.setItem(LOGGED_IN_USER, JSON.stringify(user));
                 navigate(SETUP_PROFILE);
             } catch (error) {
                 setError(error.message);
