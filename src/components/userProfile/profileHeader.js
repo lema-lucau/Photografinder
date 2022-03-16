@@ -1,14 +1,20 @@
 import { Modal } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { LOGGED_IN_USER } from "../../constants/user";
-import { getUserByUserId } from "../../services/users";
+import { getUserByUserId, followPhotographer, unfollowPhotographer } from "../../services/users";
 import { getAllPhotographerPosts } from "../../services/posts";
 import BookingForm from "../bookingForm";
 
 export default function ProfileHeader({user}) {
+    // States and variables
     let fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
     const [loggedInUser, setLoggedInUser] = useState(null);
+
+    const [userFollowers, setUserFollowers] = useState([]);
+    const [numFollowers, setNumFollowers] = useState(0);
     const [numPhotos, setNumPhotos] = useState(null);
+    
+    const [opened, setOpened] = useState(false);
 
     useEffect(() => {
         fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
@@ -23,12 +29,29 @@ export default function ProfileHeader({user}) {
             .then(posts => setNumPhotos(posts.length));
         }
 
+        const getFollowers = async () => {
+            await getUserByUserId(user.uid)
+            .then(returnedUser => {
+                setUserFollowers(returnedUser.followers);
+                setNumFollowers(returnedUser.followers.length)
+            });
+        }
+
         getUser();
         getNumPhotos();
-    }, []);
+        getFollowers();
+    }, [numPhotos, userFollowers, numFollowers]);
 
-    const [opened, setOpened] = useState(false);
+    // Functions
+    const followAPhotographer = async (photographerId, userId) => {
+        await followPhotographer(photographerId, userId);
+    }
 
+    const unfollowAPhotographer = async (photographerId, userId) => {
+        await unfollowPhotographer(photographerId, userId);
+    }
+
+    // Components
     const EditButton = () => {
         return(
             <>
@@ -40,13 +63,32 @@ export default function ProfileHeader({user}) {
     }
 
     const FollowButton = () => {
-        return(
-            <>
-                <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
-                    Follow
-                </button>
-            </>
-        );
+        // Check if user follows photographer
+        const userFollows = userFollowers.some(element => element.uid === loggedInUser.uid);
+
+        if (!userFollows) {
+            return(
+                <>
+                    <button 
+                        className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4"
+                        onClick={() => followAPhotographer(user.uid, loggedInUser.uid)}
+                    >
+                        Follow
+                    </button>
+                </>
+            );
+        } else {
+            return(
+                <>
+                    <button 
+                        className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4"
+                        onClick={() => unfollowAPhotographer(user.uid, loggedInUser.uid)}
+                    >
+                        Unfollow
+                    </button>
+                </>
+            );
+        }
     }
 
     const IsOwnProfile = () => {
@@ -111,7 +153,7 @@ export default function ProfileHeader({user}) {
                         </p>
                         <p className="pt-4">
                             <span className="font-bold">{numPhotos}</span> Photos,
-                            <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
+                            <span className="font-bold"> {numFollowers}</span> {numFollowers === 1 ? 'Follower' : 'Followers'}
                         </p>
                     </>
                     : null
