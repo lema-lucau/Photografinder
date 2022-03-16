@@ -102,7 +102,9 @@ export default function SetupProfile() {
             <div className="container flex mx-auto py-10 px-24">
                 <div className="flex flex-col bg-white w-full items-center border border-gray-400 rounded">
                     <h1 className="text-4xl font-bold italic mt-12">Photografinder</h1>
-                    <h3 className="text-xl font-semibold mt-8 mb-12">Account Creation</h3>
+                    <h3 className="text-2xl font-semibold mt-8 mb-12">Account Creation</h3>
+                    <p className="text-xl font-semibold mb-12 text-red-500">All fields marked with * are required </p>
+
 
                     {/* Form */}
                     <form className="flex flex-col w-full items-center pb-4" onSubmit={handleRegistration} method="POST">
@@ -110,7 +112,7 @@ export default function SetupProfile() {
                             <label 
                                 className="col-span-3 text-black text-xl font-medium mb-4"
                             >
-                                Register as a:
+                                Register as a*:
                             </label>
                             <input
                                 className="mt-2 col-span-1"
@@ -134,15 +136,15 @@ export default function SetupProfile() {
                         </div>
 
                         <input 
-                            id="firstName" placeholder="First Name" type="text" onChange={(event) => setFirstName(event.target.value)}
+                            id="firstName" placeholder="First Name*" type="text" onChange={(event) => setFirstName(event.target.value)}
                             className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
                         />
                         <input 
-                            id="lastName" placeholder="Last Name" type="text" onChange={(event) => setLastName(event.target.value)}
+                            id="lastName" placeholder="Last Name*" type="text" onChange={(event) => setLastName(event.target.value)}
                             className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
                         />
                         <input 
-                            id="username" placeholder="Username" type="text" onChange={(event) => setUsername(event.target.value)}
+                            id="username" placeholder="Username*" type="text" onChange={(event) => setUsername(event.target.value)}
                             className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
                         />
                         <textarea 

@@ -13,7 +13,7 @@ export default function Profile() {
             <div className="flex flex-row bg-white">
                 <Sidebar />
                 <div className="w-full pt-12 px-12">
-                    <UserProfile user=""user/>
+                    <UserProfile user=""/>
                 </div>
             </div>
         </>
