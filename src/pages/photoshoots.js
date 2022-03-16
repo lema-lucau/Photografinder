@@ -5,13 +5,14 @@ import Sidebar from "../components/sidebar";
 import { getUserByUserId } from "../services/users"; 
 import { getUserPhotoshootsByStatus } from "../services/photoshoots";
 import { CONFIRMED, PENDING } from "../constants/photoshoot"
+import { LOGGED_IN_USER } from "../constants/user";
 
 export default function Photoshoots() {
     const [scheduledPhotoshoots, setScheduledPhotoshoots] = useState(null);
     const [pendingPhotoshoots, setPendingPhotoshoots] = useState(null);
 
     useEffect(() => {
-        const firebaseUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
         let user;
 
         const getUser = async () => {

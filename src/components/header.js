@@ -5,12 +5,13 @@ import { DASHBOARD, LOGIN } from "../constants/routes";
 import { auth } from "../firebase-config";
 import Logo from "./logo";
 import { getUserByUserId } from "../services/users";
+import { LOGGED_IN_USER } from "../constants/user";
 
 export default function Header() {
     const [user, setUser] = useState(null);
 
     useEffect(() => {
-        const firebaseUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
 
         const getUser = async () => {
             const user = await getUserByUserId(firebaseUser.uid);

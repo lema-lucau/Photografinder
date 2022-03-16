@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DASHBOARD } from "../constants/routes";
+import { LOGGED_IN_USER } from "../constants/user";
 import { createNewUser, getUserByUsername } from "../services/users";
 
 export default function SetupProfile() {
-    const [uid, setUid] = useState(JSON.parse(localStorage.getItem("loggedInUser")).uid );
-    const [email, setEmail] = useState(JSON.parse(localStorage.getItem("loggedInUser")).email );
+    const [uid, setUid] = useState(JSON.parse(localStorage.getItem(LOGGED_IN_USER)).uid );
+    const [email, setEmail] = useState(JSON.parse(localStorage.getItem(LOGGED_IN_USER)).email );
     const [userType, setUserType] = useState("");
 
     const [firstName, setFirstName] = useState("");

@@ -3,6 +3,7 @@ import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase-config';
 import { Link, useNavigate } from "react-router-dom"
 import { DASHBOARD, REGISTER } from '../constants/routes';
+import { LOGGED_IN_USER } from '../constants/user';
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -18,7 +19,7 @@ export default function Login() {
         try {
             const userCredentials = await signInWithEmailAndPassword(auth, email, password);
 
-            localStorage.setItem("loggedInUser", JSON.stringify(userCredentials.user));
+            localStorage.setItem(LOGGED_IN_USER, JSON.stringify(userCredentials.user));
             navigate(DASHBOARD);
         } catch (error) {
             console.log(error.message);

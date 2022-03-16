@@ -4,6 +4,7 @@ import Photoshoot from "../components/photoshoot";
 import Sidebar from "../components/sidebar";
 import Timeline from "../components/timeline";
 import { CONFIRMED } from "../constants/photoshoot";
+import { LOGGED_IN_USER } from "../constants/user";
 import { getUserPhotoshootsByStatus } from "../services/photoshoots";
 import { getUserByUserId } from "../services/users";
 
@@ -11,7 +12,7 @@ export default function Dashboard() {
     const [photoshoots , setPhotoshoots] = useState(null);
     
     useEffect(() => {
-        const firebaseUser = JSON.parse(localStorage.getItem("loggedInUser"));
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
         let user;
 
         const getUser = async () => {
