@@ -1,39 +1,90 @@
 import { Modal } from "@mantine/core";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { LOGGED_IN_USER } from "../../constants/user";
+import { getUserByUserId } from "../../services/users";
 import BookingForm from "../bookingForm";
 
 export default function ProfileHeader({user}) {
-    const isUsersProfile = false;
-    const numPhotos = 8;
-    const numFollowers = 168;
-    const minRate = 75;
+    let fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    useEffect(() => {
+        fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        const getUser = async () => {
+            await getUserByUserId(fbUser.uid)
+            .then(returnedUser => setLoggedInUser(returnedUser));
+        }
+
+        getUser();
+    }, []);
 
     const [opened, setOpened] = useState(false);
 
-    const ProfileButtons = () => {
-        if (!isUsersProfile) {
+    const minRate = "00";
+    const numFollowers = "00";
+    const numPhotos = "00";
+
+    const EditButton = () => {
+        return(
+            <>
+                <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                    Edit Profile
+                </button>
+            </>
+        );
+    }
+
+    const FollowButton = () => {
+        return(
+            <>
+                <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                    Follow
+                </button>
+            </>
+        );
+    }
+
+    const IsOwnProfile = () => {
+        // User is logged in and a client
+        if (user.uid === fbUser.uid && user.type === "Client") {
+            return <EditButton />
+        } else if(user.uid === fbUser.uid && user.type === "Photographer") {
+            // User is logged in and photographer
             return(
                 <>
-                    <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
-                        Follow
-                    </button>
-                    <button onClick={() => setOpened(true)} className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
-                        Book
-                    </button>
-                </>
-            );
-        } else {
-            return(
-                <>
-                   <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
-                        Edit Profile
-                    </button>
+                    <EditButton />
                     <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
                         Upload photo
                     </button>
                 </>
             );
-        }
+        } else { return <></>}
+    }
+
+    const ProfileButtons = () => {
+        /* Not logged in user's profile, 
+        logged in user is a photographer 
+        and they are on another photographers page
+        */
+        if ( user.uid !== fbUser.uid && 
+            user.type === "Photographer" && 
+            loggedInUser.type == "Photographer") {
+            return(
+                <FollowButton />
+            );
+        } else if (user.uid !== fbUser.uid && user.type === "Photographer") {
+            // Not logged in user's profile and they are on a photographers page
+            return(
+                <>
+                    <FollowButton />
+                    <button onClick={() => setOpened(true)} className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                        Book
+                    </button>
+                </>
+            );
+        } 
+        else { return <></>}
     }
 
     return(
@@ -61,7 +112,14 @@ export default function ProfileHeader({user}) {
             <div className="flex flex-col items-end py-6">
                 <div className="flex flex-col items-center">
                     <img className="w-44 h-44 object-cover rounded-full border-black" src="images/default_user_icon.png" alt="users profile pic"/>
-                    <ProfileButtons />
+                    {fbUser?.uid && loggedInUser?.uid ?
+                        <>
+                            <IsOwnProfile />
+                            <ProfileButtons />
+                        </>
+                        :
+                        null
+                    }
                 </div>
             </div>
 

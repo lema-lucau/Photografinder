@@ -156,7 +156,7 @@ export default function SetupProfile() {
                         {/* Choose which form to display  */}
                         <div className={userType === "Client" ? "hidden" : "flex flex-col w-full items-center"}>
                             <input 
-                                id="minRate" placeholder="Minimum rate per hour (example: €150)" type="text" 
+                                id="minRate" placeholder="Minimum rate per hour (example: 150)" type="text" 
                                 onChange={(event) => setMinRate(event.target.value)}
                                 className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
                             />
