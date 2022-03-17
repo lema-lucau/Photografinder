@@ -1,11 +1,24 @@
 import Header from "../components/header";
 import Sidebar from "../components/sidebar";
 import UserProfile from "../components/userProfile";
-import { LOGGED_IN_USER } from "../constants/user";
+import { useState, useEffect } from "react";
+import { getUserByUsername } from "../services/users";
+import { useParams } from "react-router-dom";
 
 export default function Profile() {
-    const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
-    console.log(firebaseUser);
+    const {username} = useParams();
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const getUser = async () => {
+            const returnedUser = await getUserByUsername(username);
+            if (returnedUser !== null) {
+                setUser(returnedUser);
+            }
+        };
+
+        getUser();
+    }, [username]);
 
     return(
         <>
@@ -13,7 +26,7 @@ export default function Profile() {
             <div className="flex flex-row bg-white">
                 <Sidebar />
                 <div className="w-full pt-12 px-12">
-                    <UserProfile user=""/>
+                    {user?.username ? <UserProfile user={user}/> : <p>User not found</p>}
                 </div>
             </div>
         </>

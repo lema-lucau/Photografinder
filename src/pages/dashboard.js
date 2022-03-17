@@ -30,7 +30,7 @@ export default function Dashboard() {
                     await getUserByUserId(photoshoot.clientId)
                     .then(data => photoshoot.username = data.username);
                 } else if (user.type === "Client") {
-                    // If logged in user is a client display photgraphers name
+                    // If logged in user is a client display photographers name
                     await getUserByUserId(photoshoot.photographerId)
                     .then(data => photoshoot.username = data.username);
                 }
