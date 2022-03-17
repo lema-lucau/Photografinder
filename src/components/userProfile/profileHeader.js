@@ -10,8 +10,6 @@ export default function ProfileHeader({user}) {
     let fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
     const [loggedInUser, setLoggedInUser] = useState(null);
 
-    const [userFollowers, setUserFollowers] = useState([]);
-    const [numFollowers, setNumFollowers] = useState(0);
     const [numPhotos, setNumPhotos] = useState(null);
     
     const [opened, setOpened] = useState(false);
@@ -29,26 +27,19 @@ export default function ProfileHeader({user}) {
             .then(posts => setNumPhotos(posts.length));
         }
 
-        const getFollowers = async () => {
-            await getUserByUserId(user.uid)
-            .then(returnedUser => {
-                setUserFollowers(returnedUser.followers);
-                setNumFollowers(returnedUser.followers.length)
-            });
-        }
-
         getUser();
         getNumPhotos();
-        getFollowers();
-    }, [numPhotos, userFollowers, numFollowers]);
+    }, [numPhotos]);
 
     // Functions
     const followAPhotographer = async (photographerId, userId) => {
         await followPhotographer(photographerId, userId);
+        window.location.reload();
     }
 
     const unfollowAPhotographer = async (photographerId, userId) => {
         await unfollowPhotographer(photographerId, userId);
+        window.location.reload();
     }
 
     // Components
@@ -64,7 +55,7 @@ export default function ProfileHeader({user}) {
 
     const FollowButton = () => {
         // Check if user follows photographer
-        const userFollows = userFollowers.some(element => element.uid === loggedInUser.uid);
+        const userFollows = user.followers.some(element => element.uid === loggedInUser.uid);
 
         if (!userFollows) {
             return(
@@ -115,7 +106,7 @@ export default function ProfileHeader({user}) {
         */
         if ( user.uid !== fbUser.uid && 
             user.type === "Photographer" && 
-            loggedInUser.type == "Photographer") {
+            loggedInUser.type === "Photographer") {
             return(
                 <FollowButton />
             );
@@ -153,7 +144,7 @@ export default function ProfileHeader({user}) {
                         </p>
                         <p className="pt-4">
                             <span className="font-bold">{numPhotos}</span> Photos,
-                            <span className="font-bold"> {numFollowers}</span> {numFollowers === 1 ? 'Follower' : 'Followers'}
+                            <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
                         </p>
                     </>
                     : null
