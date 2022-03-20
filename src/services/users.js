@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const usersApi = axios.create({
-    baseURL: "http://photografinder.xyz/users/"
+    baseURL: "https://photografinder.xyz/users/"
 });
 
 
