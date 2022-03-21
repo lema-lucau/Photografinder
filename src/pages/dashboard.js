@@ -42,7 +42,7 @@ export default function Dashboard() {
         getUser();
         setTimeout(() => {
             getPhotoshoots();
-        }, 300);
+        }, 500);
     }, []);
 
     return(

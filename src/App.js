@@ -1,4 +1,5 @@
 import {Routes, Route} from "react-router-dom";
+import React from 'react';
 import * as ROUTES from './constants/routes';
 import UserContext from "./context/UserContext";
 import Dashboard from './pages/dashboard';
@@ -14,16 +15,18 @@ function App() {
   
   return (
     <>
-      <UserContext.Provider value={user}>
-        <Routes>
-          <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
-          <Route path={ROUTES.LOGIN} element={<Login />} />
-          <Route path={ROUTES.REGISTER} element={<Register />} />
-          <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
-          <Route path={ROUTES.PROFILE} element={<Profile />} />
-          <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
-        </Routes>
-      </UserContext.Provider>
+      <React.StrictMode>
+        <UserContext.Provider value={user}>
+          <Routes>
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
+            <Route path={ROUTES.LOGIN} element={<Login />} />
+            <Route path={ROUTES.REGISTER} element={<Register />} />
+            <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
+            <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
+          </Routes>
+        </UserContext.Provider>
+      </React.StrictMode>
     </>
   );
 }

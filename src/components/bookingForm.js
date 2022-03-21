@@ -1,29 +1,61 @@
-export default function BookingForm({photographer}, pending) {
-    const username = "photographers_username";
+import { useState, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import { LOGGED_IN_USER } from "../constants/user";
+import { getUserByUserId, getUserByUsername } from "../services/users";
+import { createPhotoshoot } from "../services/photoshoots";
+import { v4 as uuidv4 } from "uuid";
+import { PHOTOSHOOTS } from "../constants/routes";
 
-    const isUserPhotographer = true;
-    pending = true;
+export default function BookingForm() {
+    const {username} = useParams();
+    const [profileUser, setProfileUser] = useState(null);
+    const [loggedInUser, setLoggedInUser] = useState(null);
+
+    // Form elements
+    const [date, setDate] = useState(null);
+    const [fromTime, setFromTime] = useState(null);
+    const [toTime, setToTime] = useState(null);
+    const [location, setLocation] = useState(null);
+    const [clientNotes, setClientNotes] = useState(null);
+
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        const getProfileUser = async () => {
+            await getUserByUsername(username)
+            .then(user => setProfileUser(user));
+        }
+
+        const getLoggedInUser = async () => {
+            await getUserByUserId(fbUser.uid)
+            .then(user => setLoggedInUser(user));
+        }
+
+        getProfileUser();
+        getLoggedInUser();
+
+    }, []);
 
     const handleBooking = async (event) => {
         event.preventDefault();
-    }
 
-    function FormButtons() {
-        if (!pending) {
-            return(
-                <div className="flex justify-end">
-                    <button id="request" className="text-white px-12 py-2 bg-sky-400 rounded-lg">Request a photoshoot</button>
-                </div> 
-            );
-        } else {
-            return(
-                <div className="flex justify-end">
-                    <button id="amend" className="text-white px-12 py-2 bg-sky-400 rounded-lg">Amend</button>
-                    <button id="decline" className="text-white px-12 py-2 ml-8 bg-red-500 rounded-lg">Decline</button>
-                    <button id="accept" className="text-white px-12 py-2 ml-8 bg-green-400 rounded-lg">Accept</button>
-                </div> 
-            ); 
-        }
+        const photoshootDetails = {
+            id: uuidv4(),
+            photographerId: profileUser.uid,
+            clientId: loggedInUser.uid,
+            date: date,
+            startTime: fromTime,
+            endTime: toTime,
+            location: location,
+            clientNotes: clientNotes
+        };
+
+        await createPhotoshoot(photoshootDetails);
+
+        // Redirect user to photoshoots page
+        navigate(PHOTOSHOOTS);
     }
 
     return(
@@ -36,42 +68,51 @@ export default function BookingForm({photographer}, pending) {
                 <label htmlFor="date" className="text-lg font-bold col-span-1">Date:</label>
                 <input 
                     id="date" type="date" className="text-m w-full bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                    onChange={(event) => setDate(event.target.value)}
+                    required
                 />
 
                 <label htmlFor="fromTime" className="text-lg font-bold col-span-1">From:</label>
                 <input 
                     id="fromTime" name="fromTime" type="time" step="900"
                     className="text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                    onChange={(event) => setFromTime(event.target.value)}
+                    required
                 />
 
                 <label htmlFor="toTime" className="text-lg font-bold col-span-1">To:</label>
                 <input 
                     id="toTime" name="toTime" type="time" step="900"
                     className="text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                    onChange={(event) => setToTime(event.target.value)}
+                    required
                 />
 
                 <label htmlFor="location" className="text-lg font-bold col-span-1">Photoshoot Location:</label>
                 <input 
                     id="location" placeholder="St. James Park, Dublin, X41 KS57" type="text" 
                     className="text-m w-full bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                    onChange={(event) => setLocation(event.target.value)}
+                    required
                 />
 
                 <label htmlFor="clientNotes" className="text-lg font-bold col-span-1">Client Notes:</label>
                 <textarea 
-                    id="clientNotes" placeholder="Enter any notes that you have for the photographer here..." rows="5" cols="50"
-                    className={`text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2 ${isUserPhotographer ? 'pointer-events-none' : ''}`}
-                >
-                </textarea>
-
-                <label htmlFor="photographerNotes" className="text-lg font-bold col-span-1">Photographer Notes:</label>
-                <textarea 
-                    id="photographerNotes" placeholder="Enter any notes that you have for the client here..." rows="5" cols="50"
-                    className={`text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2 ${isUserPhotographer ? '' : 'pointer-events-none'}`}
+                    id="clientNotes" placeholder="(Optional) Enter any notes that you have for the photographer here..." rows="5" cols="50"
+                    className="text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                    onChange={(event) => setClientNotes(event.target.value)}
                 >
                 </textarea>
             </div>
-            
-            <FormButtons />
+
+            <div className="flex justify-end">
+                <button 
+                    type="submit"
+                    id="request" className="text-white px-12 py-2 bg-sky-400 rounded-lg"
+                >
+                    Request a photoshoot
+                </button>
+            </div>             
         </form>
     );
 }
