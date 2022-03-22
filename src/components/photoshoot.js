@@ -1,8 +1,35 @@
 import { Menu, MenuItem, MenuLabel } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { LOGGED_IN_USER } from "../constants/user";
+import { getUserByUserId } from "../services/users";
+import { updatePhotoshootStatus } from "../services/photoshoots";
+import { CONFIRMED } from "../constants/photoshoot";
 
-export default function Photoshoot({id, size='', date, username, location, startTime, endTime}) {
+export default function Photoshoot({id, size='', date, username, location, startTime, endTime, lastEditBy , status}) {
+    const [user, setUser] = useState(null);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        const getUser = async () => {
+            await getUserByUserId(fbUser.uid)
+            .then(returnedUser => setUser(returnedUser));
+        }
+
+        getUser();
+    }, []);
+
+    // If the client was the last person to edit photoshoot, they must wait for photographer to approve photoshoot
+    // This works vice versa
+    let canConfirmPhotoshoot = false;
+    if (user !== null && user.type === "Client" && lastEditBy === "Photographer") {
+        canConfirmPhotoshoot = true;
+    }  else if (user !== null && user.type === "Photographer" && lastEditBy === "Client") {
+        canConfirmPhotoshoot = true;
+    }
+
 
     function BgImg() {
         return(<img src="https://img.icons8.com/material-outlined/30/000000/menu-2.png" alt="three dots menu icon"></img>);
@@ -28,40 +55,59 @@ export default function Photoshoot({id, size='', date, username, location, start
     }
 
     return(
-        <div className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
-            <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
-            <p className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>
-            <p className="text-lg italic font-semibold col-span-4 overflow-x-auto">{location}</p>
-            <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
-            <div className="col-span-1">
-                {/* Dropdown menu that will appear when user clicks the three dots */}
-                <Menu 
-                    control={<button type="button"><BgImg></BgImg></button>} placement="center"
-                >
-                    <MenuLabel>Photoshoot options</MenuLabel> 
-                    <MenuItem 
-                        onClick={() => navigate(`/edit-photoshoot/${id}`)}
-                        icon={<img src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/24/000000/external-edit-interface-dreamstale-lineal-dreamstale.png" alt="edit icon"></img>}
-                        sx={() => ({
-                            '&:hover': {
-                                backgroundColor: "#e2e8f0"
-                            },
-                        })}
-                    >
-                        Edit photoshoot
-                    </MenuItem>
-                    <MenuItem
-                        icon={<img src="https://img.icons8.com/ios/24/000000/cancel.png" alt="cancel icon"></img>} 
-                        sx={() => ({
-                            '&:hover': {
-                                backgroundColor: "#e2e8f0"
-                            },
-                        })}
-                    >
-                        Cancel photoshoot
-                    </MenuItem>
-                </Menu>
-            </div>
-        </div>
+        <>
+            { user !== null ?
+                <div className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
+                    <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+                    <p className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>
+                    <p className="text-lg italic font-semibold col-span-4 overflow-x-auto">{location}</p>
+                    <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
+                    <div className="col-span-1">
+                        {/* Dropdown menu that will appear when user clicks the three dots */}
+                        <Menu 
+                            control={<button type="button"><BgImg></BgImg></button>} placement="center"
+                        >
+                            <MenuLabel>Photoshoot options</MenuLabel> 
+                            <MenuItem 
+                                onClick={() => navigate(`/edit-photoshoot/${id}`)}
+                                icon={<img src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/24/000000/external-edit-interface-dreamstale-lineal-dreamstale.png" alt="edit icon"></img>}
+                                sx={() => ({
+                                    '&:hover': {
+                                        backgroundColor: "#e2e8f0"
+                                    },
+                                })}
+                            >
+                                Edit
+                            </MenuItem>
+                            {canConfirmPhotoshoot && status !== CONFIRMED ? 
+                                <MenuItem 
+                                    onClick={async () => {await updatePhotoshootStatus(id, CONFIRMED); window.location.reload()}}
+                                    icon={<img src="https://img.icons8.com/external-royyan-wijaya-detailed-outline-royyan-wijaya/24/external-tick-interface-royyan-wijaya-detailed-outline-royyan-wijaya.png" alt="confirm icon"></img>}
+                                    sx={() => ({
+                                        '&:hover': {
+                                            backgroundColor: "#e2e8f0"
+                                        },
+                                    })}
+                                >
+                                    Confirm
+                                </MenuItem>
+                        
+                            : null}
+
+                            <MenuItem
+                                icon={<img src="https://img.icons8.com/ios/24/000000/cancel.png" alt="cancel icon"></img>} 
+                                sx={() => ({
+                                    '&:hover': {
+                                        backgroundColor: "#e2e8f0"
+                                    },
+                                })}
+                            >
+                                Cancel
+                            </MenuItem>
+                        </Menu>
+                    </div>
+                </div>
+            : null }
+        </>
     );
 }

@@ -36,7 +36,7 @@ export default function Photoshoots() {
                 }
             });
 
-            setTimeout(() => {setScheduledPhotoshoots(photoshoots)}, 300)
+            setTimeout(() => {setScheduledPhotoshoots(photoshoots)}, 500)
         }
 
         const getPendingPhotoshoots = async () => {
