@@ -46,6 +46,23 @@ export default function Photoshoot({id, size='', date, username, location, start
         return day + "/" + month + "/" + year;
     }
 
+    function DisplayPhotoshoot() {
+        return(
+            <>
+                <Modal
+                    opened={viewPhotoshoot}
+                    onClose={() => setViewPhotoshoot(false)}
+                    size="85%"
+                >
+                    <PhotoshootDetails 
+                        username={username} date={formatDate(date)} startTime={startTime} endTime={endTime} 
+                        location={location} clientNotes={clientNotes} photographerNotes={photographerNotes}
+                    />
+                </Modal>
+            </>
+        );
+    }
+
     function ConfirmCancellation() {
         return(
             <>
@@ -79,10 +96,13 @@ export default function Photoshoot({id, size='', date, username, location, start
 
     if (size === "small") {
         return(
-            <div className="bg-white grid grid-cols-9 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
-                <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
-                <p className="text-lg italic font-semibold text-center col-span-5 overflow-x-auto">{username}</p>
-                <p className="text-lg italic font-semibold text-right col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
+            <div 
+                className="bg-white grid grid-cols-9 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8"
+            >
+                <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+                <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold text-center col-span-5 overflow-x-auto">{username}</p>
+                <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold text-right col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
+                <DisplayPhotoshoot />
             </div>
         );
     }
@@ -90,11 +110,13 @@ export default function Photoshoot({id, size='', date, username, location, start
     return(
         <>
             { user !== null ?
-                <div className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8">
-                    <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
-                    <p className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>
-                    <p className="text-lg italic font-semibold col-span-4 overflow-x-auto">{location}</p>
-                    <p className="text-lg italic font-semibold col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
+                <div 
+                    className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8"
+                >
+                    <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+                    <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>
+                    <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-4 overflow-x-auto">{location}</p>
+                    <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
                     <div className="col-span-1">
                         {/* Dropdown menu that will appear when user clicks the three dots */}
                         <Menu 
@@ -150,6 +172,8 @@ export default function Photoshoot({id, size='', date, username, location, start
                         <ConfirmCancellation />
                     </Modal>
 
+                    {/* Display photoshoot details */}
+                    <DisplayPhotoshoot />
                 </div>
             : null }
         </>

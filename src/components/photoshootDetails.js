@@ -1,6 +1,6 @@
 export default function PhotoshootDetails({username, date, startTime, endTime, location, clientNotes, photographerNotes}) {
     return(
-        <div className="flex flex-col w-5/6 mx-auto py-10 border border-black rounded-2xl">
+        <div className="flex flex-col w-5/6 mx-auto py-12 border border-black rounded-2xl">
             <h3 className="text-center text-2xl font-bold mb-8">Photoshoot with {username}</h3>
             <div className="grid grid-cols-3 gap-16 mx-auto mt-4">
                 <p className="text-xl text-center font-bold col-span-1 pl-4">Date:</p>
