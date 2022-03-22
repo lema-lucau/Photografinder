@@ -1,13 +1,16 @@
-import { Menu, MenuItem, MenuLabel } from "@mantine/core";
+import { Menu, MenuItem, MenuLabel, Modal } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { LOGGED_IN_USER } from "../constants/user";
 import { getUserByUserId } from "../services/users";
-import { updatePhotoshootStatus } from "../services/photoshoots";
+import { deletePhotoshoot, updatePhotoshootStatus } from "../services/photoshoots";
 import { CONFIRMED } from "../constants/photoshoot";
+import PhotoshootDetails from "./photoshootDetails";
 
-export default function Photoshoot({id, size='', date, username, location, startTime, endTime, lastEditBy , status}) {
+export default function Photoshoot({id, size='', date, username, location, startTime, endTime, lastEditBy , status, clientNotes, photographerNotes}) {
     const [user, setUser] = useState(null);
+    const [opened, setOpened] = useState(false);
+    const [viewPhotoshoot, setViewPhotoshoot] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -30,7 +33,6 @@ export default function Photoshoot({id, size='', date, username, location, start
         canConfirmPhotoshoot = true;
     }
 
-
     function BgImg() {
         return(<img src="https://img.icons8.com/material-outlined/30/000000/menu-2.png" alt="three dots menu icon"></img>);
     }
@@ -42,6 +44,37 @@ export default function Photoshoot({id, size='', date, username, location, start
         const year = date.substring(0,4);
 
         return day + "/" + month + "/" + year;
+    }
+
+    function ConfirmCancellation() {
+        return(
+            <>
+                <h1 className="text-center text-3xl font-bold mb-8">Cancel Photoshoot</h1>
+                <h2 className="text-center text-xl mb-8">Are you sure you want to cancel the following photoshoot?</h2>
+                <PhotoshootDetails 
+                    username={username} date={formatDate(date)} startTime={startTime} endTime={endTime} 
+                    location={location} clientNotes={clientNotes} photographerNotes={photographerNotes}
+                />
+                <div className="flex justify-around w-5/6 pb-8 mx-auto mt-8">
+                    <button 
+                        className="text-lg text-white px-24 py-4 ml-8 bg-green-400 rounded-lg"
+                        onClick={() => setOpened(false)}
+                    >
+                        No
+                    </button>
+
+                    <button 
+                        className="text-lg text-white px-24 py-4 ml-8 bg-red-500 rounded-lg"
+                        onClick={async () => {
+                            await deletePhotoshoot(id);
+                            window.location.reload();
+                        }}
+                    >
+                        Yes
+                    </button>
+                </div>
+            </>
+        );
     }
 
     if (size === "small") {
@@ -96,6 +129,7 @@ export default function Photoshoot({id, size='', date, username, location, start
 
                             <MenuItem
                                 icon={<img src="https://img.icons8.com/ios/24/000000/cancel.png" alt="cancel icon"></img>} 
+                                onClick={() => setOpened(true)}
                                 sx={() => ({
                                     '&:hover': {
                                         backgroundColor: "#e2e8f0"
@@ -106,6 +140,16 @@ export default function Photoshoot({id, size='', date, username, location, start
                             </MenuItem>
                         </Menu>
                     </div>
+
+                    {/* Confirm cancellation */}
+                    <Modal
+                        opened={opened}
+                        onClose={() => setOpened(false)}
+                        size="85%"
+                    >
+                        <ConfirmCancellation />
+                    </Modal>
+
                 </div>
             : null }
         </>
