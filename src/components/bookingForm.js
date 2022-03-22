@@ -16,7 +16,7 @@ export default function BookingForm() {
     const [fromTime, setFromTime] = useState(null);
     const [toTime, setToTime] = useState(null);
     const [location, setLocation] = useState(null);
-    const [clientNotes, setClientNotes] = useState(null);
+    const [clientNotes, setClientNotes] = useState("");
 
     const navigate = useNavigate();
 
@@ -98,7 +98,7 @@ export default function BookingForm() {
 
                 <label htmlFor="clientNotes" className="text-lg font-bold col-span-1">Client Notes:</label>
                 <textarea 
-                    id="clientNotes" placeholder="(Optional) Enter any notes that you have for the photographer here..." rows="5" cols="50"
+                    id="clientNotes" placeholder="Enter any notes that you have for the photographer here..." rows="5" cols="50"
                     className="text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
                     onChange={(event) => setClientNotes(event.target.value)}
                 >

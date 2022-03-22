@@ -57,7 +57,7 @@ export default function Photoshoots() {
             });
 
             // Set timeout to make sure username is received
-            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 300)
+            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 500)
         }
 
         getUser();

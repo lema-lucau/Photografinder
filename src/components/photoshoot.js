@@ -1,6 +1,9 @@
 import { Menu, MenuItem, MenuLabel } from "@mantine/core";
+import { useNavigate } from "react-router-dom";
 
 export default function Photoshoot({id, size='', date, username, location, startTime, endTime}) {
+    const navigate = useNavigate();
+
     function BgImg() {
         return(<img src="https://img.icons8.com/material-outlined/30/000000/menu-2.png" alt="three dots menu icon"></img>);
     }
@@ -37,6 +40,7 @@ export default function Photoshoot({id, size='', date, username, location, start
                 >
                     <MenuLabel>Photoshoot options</MenuLabel> 
                     <MenuItem 
+                        onClick={() => navigate(`/edit-photoshoot/${id}`)}
                         icon={<img src="https://img.icons8.com/external-dreamstale-lineal-dreamstale/24/000000/external-edit-interface-dreamstale-lineal-dreamstale.png" alt="edit icon"></img>}
                         sx={() => ({
                             '&:hover': {

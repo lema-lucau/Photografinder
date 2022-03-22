@@ -8,6 +8,7 @@ import Register from './pages/register';
 import SetupProfile from './pages/setupProfile';
 import Profile from './pages/profile';
 import Photoshoots from './pages/photoshoots';
+import EditPhotoshoot from "./pages/editPhotoshoot";
 import LoggedInUserExists from './components/helpers/loggedInUserExists';
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
             <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
             <Route path={ROUTES.PROFILE} element={<Profile />} />
             <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
+            <Route path={ROUTES.EDIT_PHOTOSHOOT} element={<EditPhotoshoot />} />
           </Routes>
         </UserContext.Provider>
       </React.StrictMode>
