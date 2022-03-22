@@ -36,7 +36,7 @@ export default function Photoshoots() {
                 }
             });
 
-            setTimeout(() => {setScheduledPhotoshoots(photoshoots)}, 300)
+            setTimeout(() => {setScheduledPhotoshoots(photoshoots)}, 500)
         }
 
         const getPendingPhotoshoots = async () => {
@@ -57,7 +57,7 @@ export default function Photoshoots() {
             });
 
             // Set timeout to make sure username is received
-            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 300)
+            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 500)
         }
 
         getUser();
