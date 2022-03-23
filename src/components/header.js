@@ -9,6 +9,10 @@ import { LOGGED_IN_USER } from "../constants/user";
 
 export default function Header() {
     const [user, setUser] = useState(null);
+    const [username, setUsername] = useState("");
+
+    let navigate = useNavigate();
+
 
     useEffect(() => {
         const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
@@ -20,12 +24,16 @@ export default function Header() {
         getUser();
     }, [])
 
-    let navigate = useNavigate();
-
     async function logOut() {
         await signOut(auth);
 
         navigate(LOGIN);
+    }
+
+    const searchUser = (event) => {
+        event.preventDefault();
+        navigate(`/p/${username}`);
+        window.location.reload();
     }
 
     return(
@@ -34,12 +42,16 @@ export default function Header() {
                 <Logo />
                 <div className="container flex flex-row bg-gray-200 border border-gray-400 rounded my-2 p-2">
                     <img className="ml-1 gray-200" src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/24/000000/external-magnifying-glass-search-flatart-icons-outline-flatarticons-15.png" alt="magnifying glass"/>
-                    <input 
-                        id="search" 
-                        placeholder="Search" 
-                        type="text"
-                        className="bg-gray-200 outline-none text-m w-11/12 px-2" 
-                    />
+                    <form onSubmit={searchUser}>
+                        <input 
+                            id="search" 
+                            placeholder="Search" 
+                            type="text"
+                            className="bg-gray-200 outline-none text-m w-11/12 px-2" 
+                            onChange={(event) => {setUsername(event.target.value)}}
+                        />
+                        <input type="submit" hidden />
+                    </form>
                 </div>
                 <div className="flex justify-end items-center">
                     <Link to={DASHBOARD}>

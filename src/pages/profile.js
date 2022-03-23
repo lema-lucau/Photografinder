@@ -23,10 +23,12 @@ export default function Profile() {
     return(
         <>
             <Header />
-            <div className="flex flex-row bg-white">
+            <div className="flex flex-row bg-white h-screen">
                 <Sidebar />
                 <div className="w-full pt-12 px-12">
-                    {user?.username ? <UserProfile user={user}/> : <p>User not found</p>}
+                    {user?.username ? <UserProfile user={user}/> 
+                    : 
+                    <p className="text-center text-2xl">User not found</p>}
                 </div>
             </div>
         </>
