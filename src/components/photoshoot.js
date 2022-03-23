@@ -6,6 +6,7 @@ import { getUserByUserId } from "../services/users";
 import { deletePhotoshoot, updatePhotoshootStatus } from "../services/photoshoots";
 import { CONFIRMED } from "../constants/photoshoot";
 import PhotoshootDetails from "./photoshootDetails";
+import { formatDate, concatTime, photoshootFinishedOrExpired } from "./helpers/photoshootFunctions";
 
 export default function Photoshoot({id, size='', date, username, location, startTime, endTime, lastEditBy , status, clientNotes, photographerNotes}) {
     const [user, setUser] = useState(null);
@@ -21,8 +22,16 @@ export default function Photoshoot({id, size='', date, username, location, start
             .then(returnedUser => setUser(returnedUser));
         }
 
+        const checkPhotoshoot = async () => {
+           await photoshootFinishedOrExpired(id, formatDate(date, "-", "YYYYMMDD"), endTime, status);
+        }
+
+        checkPhotoshoot();
         getUser();
     }, []);
+
+    // Check if the photoshoot has expired
+    // const result = await
 
     // If the client was the last person to edit photoshoot, they must wait for photographer to approve photoshoot
     // This works vice versa
@@ -37,15 +46,6 @@ export default function Photoshoot({id, size='', date, username, location, start
         return(<img src="https://img.icons8.com/material-outlined/30/000000/menu-2.png" alt="three dots menu icon"></img>);
     }
 
-    const concatTime = (startTime, endTime) => {return startTime + " - " + endTime};
-    const formatDate = (date) => {
-        const day = date.substring(8, 10);
-        const month = date.substring(5,7);
-        const year = date.substring(0,4);
-
-        return day + "/" + month + "/" + year;
-    }
-
     function DisplayPhotoshoot() {
         return(
             <>
@@ -55,8 +55,9 @@ export default function Photoshoot({id, size='', date, username, location, start
                     size="85%"
                 >
                     <PhotoshootDetails 
-                        username={username} date={formatDate(date)} startTime={startTime} endTime={endTime} 
-                        location={location} clientNotes={clientNotes} photographerNotes={photographerNotes}
+                        username={username} date={formatDate(date, "/")} startTime={startTime} endTime={endTime} 
+                        location={location} clientNotes={clientNotes} photographerNotes={photographerNotes} 
+                        status={status} lastEditBy={lastEditBy}
                     />
                 </Modal>
             </>
@@ -69,7 +70,7 @@ export default function Photoshoot({id, size='', date, username, location, start
                 <h1 className="text-center text-3xl font-bold mb-8">Cancel Photoshoot</h1>
                 <h2 className="text-center text-xl mb-8">Are you sure you want to cancel the following photoshoot?</h2>
                 <PhotoshootDetails 
-                    username={username} date={formatDate(date)} startTime={startTime} endTime={endTime} 
+                    username={username} date={formatDate(date, "/")} startTime={startTime} endTime={endTime} 
                     location={location} clientNotes={clientNotes} photographerNotes={photographerNotes}
                 />
                 <div className="flex justify-around w-5/6 pb-8 mx-auto mt-8">
@@ -99,7 +100,7 @@ export default function Photoshoot({id, size='', date, username, location, start
             <div 
                 className="bg-white grid grid-cols-9 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8"
             >
-                <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+                <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date, "/")}</p>
                 <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold text-center col-span-5 overflow-x-auto">{username}</p>
                 <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold text-right col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>
                 <DisplayPhotoshoot />
@@ -113,7 +114,7 @@ export default function Photoshoot({id, size='', date, username, location, start
                 <div 
                     className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8"
                 >
-                    <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date)}</p>
+                    <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date, "/")}</p>
                     <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>
                     <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-4 overflow-x-auto">{location}</p>
                     <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{concatTime(startTime, endTime)}</p>

@@ -74,16 +74,16 @@ export async function getUserPhotoshootsByStatus(userId, status) {
     return photoshoots;
 }
 
-export async function getUserPhotoshootByDateStartTime(userId, date, startTime) {
-    const photoshoot = 
-        await photoshootsApi.get("retrieve/by-date-start-time", { 
+export async function getUserPhotoshootsByDateStatus(userId, date, status) {
+    const photoshoots = 
+        await photoshootsApi.get("retrieve/by-date-status", { 
             params: {
                 uid: userId,
                 date: date,
-                startTime: startTime 
+                status: status 
             }
         })
         .then(response => response.data);
 
-    return photoshoot;
+    return photoshoots;
 }

@@ -7,10 +7,12 @@ import { LOGGED_IN_USER } from "../constants/user";
 import { getUserByUserId } from "../services/users";
 import { PENDING } from "../constants/photoshoot";
 import { PHOTOSHOOTS } from "../constants/routes";
+import { formatDate, concatTime, isUserOccupied } from "../components/helpers/photoshootFunctions";
 
 export default function EditPhotoshoot() {
     const {photoshootId} = useParams();
     const [photoshoot, setPhotoshoot] = useState(null);
+    const [photoshootsExists, setPhotoshootExists] = useState(null);
     const [photographer, setPhotographer] = useState(null);
     const [client, setClient] = useState(null);
     const [user, setUser] = useState(null);
@@ -33,7 +35,7 @@ export default function EditPhotoshoot() {
             setPhotoshoot(returnedPhotoshoot);
 
             // Set form elements states
-            setDate(formatDate(returnedPhotoshoot.date));
+            setDate(formatDate(returnedPhotoshoot.date, "-", "YYYYMMDD"));
             setFromTime(returnedPhotoshoot.startTime);
             setToTime(returnedPhotoshoot.endTime);
             setLocation(returnedPhotoshoot.location);
@@ -57,16 +59,28 @@ export default function EditPhotoshoot() {
         getUser();
     }, [photoshootId]);
 
-    const formatDate = (date) => {
-        const day = date.substring(8, 10);
-        const month = date.substring(5,7);
-        const year = date.substring(0,4);
-
-        return year + "-" + month + "-" + day;
-    }
-
     async function updatePhotoshoot(event) {
         event.preventDefault();
+
+        // Check if photographer booked
+        const photographerResult = await isUserOccupied(photographer.uid, date, fromTime, toTime);
+        const clientResult = await isUserOccupied(client.uid, date, fromTime, toTime);
+
+        if (photographerResult !== null && photographerResult.length !== 0) {
+            setPhotoshootExists(photographerResult[0]);
+            return;
+        } else {
+            setPhotoshootExists(null);
+        }
+
+        // Check if client is booked
+
+        if (clientResult !== null && clientResult.length !== 0) {
+            setPhotoshootExists(clientResult[0]);
+            return;
+        } else {
+            setPhotoshootExists(null);
+        }
 
         let editedBy;
         if (user.uid === client.uid) {
@@ -115,7 +129,7 @@ export default function EditPhotoshoot() {
                                 <label htmlFor="date" className="text-lg font-bold col-span-1">Date:</label>
                                 <input 
                                     id="date" type="date" className="text-m w-full bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
-                                    defaultValue={formatDate(photoshoot.date)}
+                                    defaultValue={formatDate(photoshoot.date, "-", "YYYYMMDD")}
                                     onChange={(event) => setDate(event.target.value)}
                                     required
                                 />
@@ -166,6 +180,16 @@ export default function EditPhotoshoot() {
 
                                 </textarea>
                             </div>
+
+                            {photoshootsExists?.id ? 
+                                <div className="text-center text-red-500 mb-4">
+                                    <p>Please select a different time or date.</p>
+                                    <p>
+                                        User is occupied on {formatDate(photoshootsExists.date, "/")} from {concatTime(photoshootsExists.startTime, photoshootsExists.endTime)}.
+                                    </p>
+                                </div>
+                                : null
+                            }
 
                             <div className="flex justify-end">
                                 <button 
