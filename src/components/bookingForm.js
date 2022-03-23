@@ -5,11 +5,13 @@ import { getUserByUserId, getUserByUsername } from "../services/users";
 import { createPhotoshoot } from "../services/photoshoots";
 import { v4 as uuidv4 } from "uuid";
 import { PHOTOSHOOTS } from "../constants/routes";
+import { concatTime, formatDate, isUserOccupied } from "./helpers/photoshootFunctions";
 
 export default function BookingForm() {
     const {username} = useParams();
     const [profileUser, setProfileUser] = useState(null);
     const [loggedInUser, setLoggedInUser] = useState(null);
+    const [photoshootsExists, setPhotoshootExists] = useState(null);
 
     // Form elements
     const [date, setDate] = useState(null);
@@ -40,6 +42,17 @@ export default function BookingForm() {
 
     const handleBooking = async (event) => {
         event.preventDefault();
+
+        let result = await isUserOccupied(profileUser.uid, date, fromTime, toTime);
+
+        // If result photoshoot contains a photoshoot, the photographer is booked for that time
+        // An error message will display
+        if (result !== null && result.length !== 0) {
+            setPhotoshootExists(result[0]);
+            return;
+        } else {
+            setPhotoshootExists(null);
+        }
 
         const photoshootDetails = {
             id: uuidv4(),
@@ -104,6 +117,16 @@ export default function BookingForm() {
                 >
                 </textarea>
             </div>
+
+            {photoshootsExists?.id ? 
+                <div className="text-center text-red-500 mb-4">
+                    <p>Please select a different time or date.</p>
+                    <p>
+                        {username} is occupied on {formatDate(photoshootsExists.date, "/")} from {concatTime(photoshootsExists.startTime, photoshootsExists.endTime)}.
+                    </p>
+                </div>
+                : null
+            }
 
             <div className="flex justify-end">
                 <button 
