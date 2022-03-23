@@ -6,7 +6,7 @@ import { getUserByUserId } from "../services/users";
 import { deletePhotoshoot, updatePhotoshootStatus } from "../services/photoshoots";
 import { CONFIRMED } from "../constants/photoshoot";
 import PhotoshootDetails from "./photoshootDetails";
-import { formatDate, concatTime } from "./helpers/photoshootFunctions";
+import { formatDate, concatTime, photoshootFinishedOrExpired } from "./helpers/photoshootFunctions";
 
 export default function Photoshoot({id, size='', date, username, location, startTime, endTime, lastEditBy , status, clientNotes, photographerNotes}) {
     const [user, setUser] = useState(null);
@@ -22,8 +22,16 @@ export default function Photoshoot({id, size='', date, username, location, start
             .then(returnedUser => setUser(returnedUser));
         }
 
+        const checkPhotoshoot = async () => {
+           await photoshootFinishedOrExpired(id, formatDate(date, "-", "YYYYMMDD"), endTime, status);
+        }
+
+        checkPhotoshoot();
         getUser();
     }, []);
+
+    // Check if the photoshoot has expired
+    // const result = await
 
     // If the client was the last person to edit photoshoot, they must wait for photographer to approve photoshoot
     // This works vice versa
@@ -48,7 +56,8 @@ export default function Photoshoot({id, size='', date, username, location, start
                 >
                     <PhotoshootDetails 
                         username={username} date={formatDate(date, "/")} startTime={startTime} endTime={endTime} 
-                        location={location} clientNotes={clientNotes} photographerNotes={photographerNotes}
+                        location={location} clientNotes={clientNotes} photographerNotes={photographerNotes} 
+                        status={status} lastEditBy={lastEditBy}
                     />
                 </Modal>
             </>

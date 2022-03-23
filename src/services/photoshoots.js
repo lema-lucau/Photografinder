@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const photoshootsApi = axios.create({
-    baseURL: "https://photografinder.xyz/photoshoots/"
+    // baseURL: "https://photografinder.xyz/photoshoots/"
+    baseURL: "http://localhost:9999/photoshoots/"
 });
 
 // POST

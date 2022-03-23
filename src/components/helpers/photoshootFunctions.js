@@ -1,5 +1,5 @@
-import { CONFIRMED } from "../../constants/photoshoot";
-import { getUserPhotoshootsByDateStatus } from "../../services/photoshoots";
+import { COMPLETED, CONFIRMED, EXPIRED, PENDING } from "../../constants/photoshoot";
+import { getUserPhotoshootsByDateStatus, updatePhotoshootStatus } from "../../services/photoshoots";
 
 // Concatenate start and end time
 export const concatTime = (startTime, endTime) => {return startTime + " - " + endTime};
@@ -40,3 +40,15 @@ export async function isUserOccupied(uid, date, startTime, endTime) {
         return null;
     }
 }
+
+// Check if photoshoot has finished OR expired
+export const photoshootFinishedOrExpired = async (id, date, endTime, status) => {
+    const today = new Date();
+    const photoShootDate = new Date(`${date}T${endTime}`);
+
+    if (today > photoShootDate && status === PENDING) {
+        await updatePhotoshootStatus(id, EXPIRED);
+    } else if (today > photoShootDate && status === CONFIRMED) {
+        await updatePhotoshootStatus(id, COMPLETED);
+    }
+} 
