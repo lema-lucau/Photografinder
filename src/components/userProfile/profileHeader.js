@@ -4,6 +4,7 @@ import { LOGGED_IN_USER } from "../../constants/user";
 import { getUserByUserId, followPhotographer, unfollowPhotographer } from "../../services/users";
 import { getAllPhotographerPosts } from "../../services/posts";
 import BookingForm from "../bookingForm";
+import UploadPhoto from "../uploadPhoto";
 
 export default function ProfileHeader({user}) {
     // States and variables
@@ -12,6 +13,7 @@ export default function ProfileHeader({user}) {
 
     const [numPhotos, setNumPhotos] = useState(null);
     
+    const [uploadPhoto, setUploadPhoto] = useState(false);
     const [opened, setOpened] = useState(false);
 
     useEffect(() => {
@@ -91,7 +93,7 @@ export default function ProfileHeader({user}) {
             return(
                 <>
                     <EditButton />
-                    <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                    <button onClick={() => setUploadPhoto(true)} className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
                         Upload photo
                     </button>
                 </>
@@ -153,7 +155,7 @@ export default function ProfileHeader({user}) {
             {/* Profile picture and buttons */}
             <div className="flex flex-col items-end py-6">
                 <div className="flex flex-col items-center">
-                    <img className="w-44 h-44 object-cover rounded-full border-black" src="../images/default_user_icon.png" alt="users profile pic"/>
+                    <img className="w-48 h-48 object-cover rounded-full border-black" src="../images/default_user_icon.png" alt="users profile pic"/>
                     {fbUser?.uid && loggedInUser?.uid ?
                         <>
                             <IsOwnProfile />
@@ -172,6 +174,15 @@ export default function ProfileHeader({user}) {
                 size="80%"
             >
                 <BookingForm />
+            </Modal>
+
+            {/* Open modal to upload photo*/}
+            <Modal
+                opened={uploadPhoto}
+                onClose={() => setUploadPhoto(false)}
+                size="80%"
+            >
+                <UploadPhoto />
             </Modal>
         </div>
     );

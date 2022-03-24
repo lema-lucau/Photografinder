@@ -5,9 +5,10 @@ const postsApi = axios.create({
 });
 
 // POST
-export async function uploadPost(post) {
+export async function uploadPost(formData) {
     const newPost = 
-        await postsApi.post("add", post)
+        await postsApi.post("add", formData, 
+            { headers: {"Content-Type": "multipart/form-data"} })
         .then(response => response.data);
 
     return newPost;
