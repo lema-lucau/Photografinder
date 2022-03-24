@@ -6,7 +6,7 @@ import { getUserByUserId } from "../services/users";
 import { deletePhotoshoot, updatePhotoshootStatus } from "../services/photoshoots";
 import { CONFIRMED } from "../constants/photoshoot";
 import PhotoshootDetails from "./photoshootDetails";
-import { formatDate, concatTime, photoshootFinishedOrExpired } from "./helpers/photoshootFunctions";
+import { formatDate, concatTime, photoshootFinishedOrExpired } from "../helpers/photoshootFunctions";
 
 export default function Photoshoot({id, size='', date, username, location, startTime, endTime, lastEditBy , status, clientNotes, photographerNotes}) {
     const [user, setUser] = useState(null);

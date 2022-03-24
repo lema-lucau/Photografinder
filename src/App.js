@@ -9,7 +9,7 @@ import SetupProfile from './pages/setupProfile';
 import Profile from './pages/profile';
 import Photoshoots from './pages/photoshoots';
 import EditPhotoshoot from "./pages/editPhotoshoot";
-import LoggedInUserExists from './components/helpers/loggedInUserExists';
+import LoggedInUserExists from './helpers/loggedInUserExists';
 
 function App() {
   const user = LoggedInUserExists();

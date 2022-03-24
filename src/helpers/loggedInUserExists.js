@@ -1,7 +1,7 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useState, useEffect } from "react";
-import { LOGGED_IN_USER } from "../../constants/user";
-import { auth } from "../../firebase-config";
+import { LOGGED_IN_USER } from "../constants/user";
+import { auth } from "../firebase-config";
 
 export default function LoggedInUserExists() {
     const [loggedInUser, setLoggedInUser] = useState(JSON.parse(localStorage.getItem(LOGGED_IN_USER)));

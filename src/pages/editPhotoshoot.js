@@ -7,7 +7,7 @@ import { LOGGED_IN_USER } from "../constants/user";
 import { getUserByUserId } from "../services/users";
 import { PENDING } from "../constants/photoshoot";
 import { PHOTOSHOOTS } from "../constants/routes";
-import { formatDate, concatTime, isUserOccupied } from "../components/helpers/photoshootFunctions";
+import { formatDate, concatTime, isUserOccupied } from "../helpers/photoshootFunctions";
 
 export default function EditPhotoshoot() {
     const {photoshootId} = useParams();

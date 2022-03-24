@@ -42,7 +42,7 @@ export default function Header() {
                 <Logo />
                 <div className="container flex flex-row bg-gray-200 border border-gray-400 rounded my-2 p-2">
                     <img className="ml-1 gray-200" src="https://img.icons8.com/external-flatart-icons-outline-flatarticons/24/000000/external-magnifying-glass-search-flatart-icons-outline-flatarticons-15.png" alt="magnifying glass"/>
-                    <form onSubmit={searchUser}>
+                    <form onSubmit={searchUser} className="w-full">
                         <input 
                             id="search" 
                             placeholder="Search" 
