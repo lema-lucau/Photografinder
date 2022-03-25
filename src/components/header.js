@@ -62,7 +62,7 @@ export default function Header() {
 
                     {user?.username ? 
                         <Link to={`/p/${user.username}`}>
-                            <img className="rounded-full w-24 h-24 cursor-pointer" src="https://picsum.photos/96/96" alt="users profile pic"/>
+                            <img className="rounded-full w-24 h-24 cursor-pointer" src={user.profilePicUrl} alt="users profile pic"/>
                         </Link>
                         :
                         null
