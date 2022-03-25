@@ -1,5 +1,5 @@
-import { COMPLETED, CONFIRMED, EXPIRED, PENDING } from "../../constants/photoshoot";
-import { getUserPhotoshootsByDateStatus, updatePhotoshootStatus } from "../../services/photoshoots";
+import { COMPLETED, CONFIRMED, EXPIRED, PENDING } from "../constants/photoshoot";
+import { getUserPhotoshootsByDateStatus, updatePhotoshootStatus } from "../services/photoshoots";
 
 // Concatenate start and end time
 export const concatTime = (startTime, endTime) => {return startTime + " - " + endTime};

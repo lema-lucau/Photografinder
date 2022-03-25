@@ -5,7 +5,7 @@ import { getUserByUserId, getUserByUsername } from "../services/users";
 import { createPhotoshoot } from "../services/photoshoots";
 import { v4 as uuidv4 } from "uuid";
 import { PHOTOSHOOTS } from "../constants/routes";
-import { concatTime, formatDate, isUserOccupied } from "./helpers/photoshootFunctions";
+import { concatTime, formatDate, isUserOccupied } from "../helpers/photoshootFunctions";
 
 export default function BookingForm() {
     const {username} = useParams();

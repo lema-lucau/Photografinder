@@ -14,6 +14,15 @@ export async function createNewUser(user) {
     return newUser;
 }
 
+export async function uploadProfilePic(formData) {
+    const updatedUser =
+        await usersApi.post("profile-picture", formData, 
+        { headers: {"Content-Type": "multipart/form-data"} })
+    .then(response => response.data);
+
+    return updatedUser;
+} 
+
 // DELETE
 export async function deleteAUser(userId) {
     const deletedUser = 
@@ -74,16 +83,6 @@ export async function getUsersFollowers(userId) {
 export async function updateUserDetails(user) {
     const updatedUser = 
         await usersApi.patch("update", user)
-        .then(response => response.data);
-
-    return updatedUser;
-} 
-
-export async function updateProfilePicUrl(userId, newUrl) {
-    const updatedUser =
-        await usersApi.patch("profile-picture", {
-            uid: userId,
-            profilePicUrl: newUrl})
         .then(response => response.data);
 
     return updatedUser;
