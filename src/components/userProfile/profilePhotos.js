@@ -5,7 +5,7 @@ import { getAllPhotographerPosts } from "../../services/posts";
 export default function ProfilePhotos({user}) {
     const [photos, setPhotos] = useState(null);
     const [opened, setOpened] = useState(false);
-    const [imgUrl, setImgUrl] = useState("");
+    const [image, setImage] = useState(null);
 
     useEffect(() => {
         const getPhotos = async () => {
@@ -25,8 +25,8 @@ export default function ProfilePhotos({user}) {
                     return (
                         <img 
                             key={photo.id} className="object-cover w-[450px] h-[450px] cursor-pointer hover:opacity-75" 
-                            src={photo.imageUrl} alt={photo.imageUrl}
-                            onClick={() => {setImgUrl(photo.imageUrl); setOpened(true);}}
+                            src={photo.imageUrl} alt={photo.imageName}
+                            onClick={() => {setImage(photo); setOpened(true);}}
                         />
                     );
                 })
@@ -44,9 +44,11 @@ export default function ProfilePhotos({user}) {
                     close: { color: 'black' }
                 }}
             >
-                <div className="flex justify-center">
-                    <img className="object-cover w-[600px] h-[600px]" src={imgUrl} alt={imgUrl}/>
-                </div>
+                {image?.imageUrl ? 
+                    <div className="flex justify-center">
+                        <img className="object-cover w-[600px] h-[600px]" src={image.imageUrl} alt={image.imageName}/>
+                    </div>
+                : null}
             </Modal>
         </div>
     );
