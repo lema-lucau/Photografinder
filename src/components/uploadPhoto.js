@@ -47,11 +47,11 @@ export default function UploadPhoto(type) {
         formData.append("id", uuidv4());
         formData.append("ownerId", user.uid);
 
-        if (type.type === "Post") {
+        if (type.type === "post") {
             await uploadPost(formData);
         } else if (type.type === "profilePicture") {
             await uploadProfilePic(formData);
-        } else {return;}
+        }
 
         window.location.reload();
     }
