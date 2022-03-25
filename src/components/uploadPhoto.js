@@ -47,6 +47,7 @@ export default function UploadPhoto(type) {
         formData.append("id", uuidv4());
         formData.append("ownerId", user.uid);
         formData.append("ownerUsername", user.username);
+        formData.append("ownerProfilePicUrl", user.profilePicUrl);
 
         if (type.type === "post") {
             await uploadPost(formData);
