@@ -10,6 +10,7 @@ import { getUserByUserId } from "../services/users";
 
 export default function Dashboard() {
     const [photoshoots , setPhotoshoots] = useState(null);
+    const [user, setUser] = useState(null);
     
     useEffect(() => {
         const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
@@ -17,6 +18,7 @@ export default function Dashboard() {
 
         const getUser = async () => {
             user = await getUserByUserId(firebaseUser.uid);
+            setUser(user);
         }
 
         const getPhotoshoots = async () => {
@@ -52,7 +54,7 @@ export default function Dashboard() {
                 <Sidebar />
                 <div className="grid grid-cols-10 gap-2 w-full">
                     <div className="flex col-span-6 justify-center border-r border-black ml-8">
-                        <Timeline />
+                        {user?.uid ? <Timeline user={user}/> : null}
                     </div>
                     <div className="flex col-span-4 justify-center border border-black my-8 mx-8 overflow-y-auto">
                         <div className="flex flex-col items-center w-full">

@@ -40,7 +40,7 @@ export default function ProfileHeader({user}) {
 
         getUser();
         getNumPhotos();
-    }, [numPhotos]);
+    }, [user]);
 
     // Functions
     const followAPhotographer = async (photographerId, userId) => {
@@ -101,7 +101,7 @@ export default function ProfileHeader({user}) {
                     <img 
                         className="w-48 h-48 object-cover rounded-full border-black hover:opacity-75 cursor-pointer" 
                         onClick={() => {setUploadType("profilePicture"); setUploadPhoto(true)}}
-                        src={profilePicUrl} alt="users profile pic"
+                        src={profilePicUrl} alt={`${user.username}'s profile picture`}
                     />
                     <EditButton />
                 </>
@@ -113,7 +113,7 @@ export default function ProfileHeader({user}) {
                     <img 
                         className="w-48 h-48 object-cover rounded-full border-black hover:opacity-75 cursor-pointer" 
                         onClick={() => {setUploadType("profilePicture"); setUploadPhoto(true)}}
-                        src={profilePicUrl} alt="users profile pic"
+                        src={profilePicUrl} alt={`${user.username}'s profile picture`}
                     />
                     <EditButton />
                     <button onClick={() => {setUploadType("post"); setUploadPhoto(true)}} className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
@@ -126,7 +126,7 @@ export default function ProfileHeader({user}) {
                 <>
                     <img 
                         className="w-48 h-48 object-cover rounded-full border-black" 
-                        src={profilePicUrl} alt="users profile pic"
+                        src={profilePicUrl} alt={`${user.username}'s profile picture`}
                     />
                 </>
             );
@@ -177,7 +177,7 @@ export default function ProfileHeader({user}) {
                             {user.location}
                         </p>
                         <p className="pt-4">
-                            <span className="font-bold">{numPhotos}</span> Photos,
+                            <span className="font-bold">{numPhotos}</span> {numPhotos === 1 ? "Photo" : "Photos"},
                             <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
                         </p>
                     </>
