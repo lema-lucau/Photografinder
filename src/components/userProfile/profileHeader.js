@@ -40,7 +40,7 @@ export default function ProfileHeader({user}) {
 
         getUser();
         getNumPhotos();
-    }, [numPhotos]);
+    }, [user]);
 
     // Functions
     const followAPhotographer = async (photographerId, userId) => {

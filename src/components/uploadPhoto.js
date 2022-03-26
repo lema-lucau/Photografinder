@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { uploadPost } from "../services/posts";
 import { getUserByUsername, uploadProfilePic } from "../services/users";
 import { v4 as uuidv4 } from "uuid";
@@ -47,7 +47,6 @@ export default function UploadPhoto(type) {
         formData.append("id", uuidv4());
         formData.append("ownerId", user.uid);
         formData.append("ownerUsername", user.username);
-        formData.append("ownerProfilePicUrl", user.profilePicUrl);
 
         if (type.type === "post") {
             await uploadPost(formData);
@@ -68,7 +67,7 @@ export default function UploadPhoto(type) {
                     </p>
                 </>
             );
-        } else if (type.type == "profilePicture") {
+        } else if (type.type === "profilePicture") {
             return(
                 <>
                     <h1 className="text-2xl italic font-bold mb-8">Upload profile picture</h1>

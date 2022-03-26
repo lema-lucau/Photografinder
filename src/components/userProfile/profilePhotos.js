@@ -15,7 +15,7 @@ export default function ProfilePhotos({user}) {
         }
 
         getPhotos();
-    }, []);
+    }, [user]);
 
     return(
         <div className="grid grid-cols-3 gap-8 justify-items-center mt-4 py-4">
