@@ -42,7 +42,7 @@ export default function Timeline({user}) {
         });
 
         return sortedPhotos.map((photo) => {
-            return <Post key={photo.id} photo={photo} />
+            return <Post key={photo.id} photo={photo} user={user} />
         });
     }
 

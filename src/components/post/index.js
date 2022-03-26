@@ -3,7 +3,7 @@ import { getUserByUsername } from "../../services/users";
 import Footer from "./footer";
 import Header from "./header";
 
-export default function Post({photo}) {
+export default function Post({photo, user}) {
     const [profilePicUrl, setProfilePicUrl] = useState(null);
     
     useEffect(() => {
@@ -32,10 +32,10 @@ export default function Post({photo}) {
                 <>
                     <Header username={photo.ownerUsername} profilePic={profilePicUrl}/>
                     <img 
-                        className="object-cover w-[600px] h-[600px] border border-t-0 border-b-0 border-black" 
+                        className="object-cover w-full h-[550px] border border-t-0 border-b-0 border-black" 
                         src={photo.imageUrl} alt={photo.imageName}
                     />
-                    <Footer numLikes={photo.likes.length}/>
+                    <Footer postId={photo.id} postLikes={photo.likes} user={user}/>
                 </>
             : null}
         </div>
