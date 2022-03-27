@@ -19,16 +19,16 @@ export default function Sidebar() {
     }, [])
 
     return(
-        <div className="container flex flex-col justify-around items-center bg-white w-1/12 h-auto border border-r-black">
+        <div className="container flex flex-col justify-evenly items-center bg-sky-100 w-2/12 h-auto">
             {user?.username ? 
                 <>
             
                 <Link to={SUGGEST_PHOTOGRAPHERS}>
-                    <Icon iconURL="https://img.icons8.com/external-victoruler-outline-victoruler/96/external-suggestion-business-and-finance-victoruler-outline-victoruler.png" text="Suggested Photographers" alt="find photographers"/>
+                    <Icon iconURL="https://img.icons8.com/external-victoruler-linear-colour-victoruler/452/external-suggestion-business-and-finance-victoruler-linear-colour-victoruler.png" text="Suggested Photographers" alt="find photographers"/>
                 </Link>
 
                 <Link to={`/p/${user.username}`}>
-                    <Icon iconURL="https://img.icons8.com/ios/70/000000/name--v1.png" text="Profile" alt="profile"/>
+                    <Icon iconURL="https://img.icons8.com/color/344/group.png" text="Profile" alt="profile"/>
                 </Link>
                 </>
                 :
@@ -36,7 +36,7 @@ export default function Sidebar() {
             }
 
             <Link to={PHOTOSHOOTS}>
-                <Icon iconURL="https://img.icons8.com/ios/70/000000/professional-photographer.png" text="Photoshoots" alt="photoshoots"/>
+                <Icon iconURL="https://img.icons8.com/color/344/professional-photographer.png" text="Photoshoots" alt="photoshoots"/>
             </Link>
         </div>
     );

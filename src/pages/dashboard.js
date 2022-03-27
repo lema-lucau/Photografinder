@@ -38,7 +38,7 @@ export default function Dashboard() {
                 }
             });
 
-            setTimeout(() => {setPhotoshoots(photoshoots)}, 300)
+            setTimeout(() => {setPhotoshoots(photoshoots)}, 500)
         }
 
         getUser();
