@@ -57,6 +57,18 @@ export async function getAllPhotographerPosts(userId) {
     return posts;
 }
 
+export async function getPhotographerPosts(userId, limit) {
+    const posts = 
+        await postsApi.get(`retrieve/limit/photographer/${userId}`, {
+            params: {
+                limit: limit
+            }
+        })
+        .then(response => response.data);
+
+    return posts;
+}
+
 export async function getPostLikes(postId) {
     const likes = 
         await postsApi.get(`retrieveLikes/${postId}`)

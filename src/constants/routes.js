@@ -5,3 +5,4 @@ export const SETUP_PROFILE = "/setup-profile"
 export const PROFILE = "/p/:username";
 export const PHOTOSHOOTS = "/photoshoots"
 export const EDIT_PHOTOSHOOT = "/edit-photoshoot/:photoshootId"
+export const SUGGEST_PHOTOGRAPHERS = "/suggestions"
