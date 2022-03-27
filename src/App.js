@@ -20,9 +20,9 @@ function App() {
       <React.StrictMode>
         <UserContext.Provider value={user}>
           <Routes>
-            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.LOGIN} element={<Login />} />
             <Route path={ROUTES.REGISTER} element={<Register />} />
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
             <Route path={ROUTES.PROFILE} element={<Profile />} />
             <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />

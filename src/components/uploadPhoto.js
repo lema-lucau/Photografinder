@@ -102,7 +102,7 @@ export default function UploadPhoto(type) {
                 
                 <button 
                     type="submit"
-                    className="text-white px-12 py-2 ml-8 bg-sky-400 rounded-lg"
+                    className="text-white px-12 py-2 ml-8 bg-sky-400 rounded-full"
                 >
                     Upload photo
                 </button>

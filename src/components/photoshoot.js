@@ -75,14 +75,14 @@ export default function Photoshoot({id, size='', date, username, location, start
                 />
                 <div className="flex justify-around w-5/6 pb-8 mx-auto mt-8">
                     <button 
-                        className="text-lg text-white px-24 py-4 ml-8 bg-green-400 rounded-lg"
+                        className="text-lg text-white px-24 py-4 ml-8 bg-green-400 rounded-full"
                         onClick={() => setOpened(false)}
                     >
                         No
                     </button>
 
                     <button 
-                        className="text-lg text-white px-24 py-4 ml-8 bg-red-500 rounded-lg"
+                        className="text-lg text-white px-24 py-4 ml-8 bg-red-500 rounded-full"
                         onClick={async () => {
                             await deletePhotoshoot(id);
                             window.location.reload();

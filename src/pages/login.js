@@ -28,7 +28,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        document.title = "Login - Photografinder";
+        document.title = "Login";
     }, []);
 
     return(
@@ -44,23 +44,26 @@ export default function Login() {
                     <form className="flex flex-col items-center w-full my-12" onSubmit={handleLogin} method="POST">
                         <input 
                             id="email" placeholder="Email" type="text" onChange={(event) => setEmail(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         
                         <input 
                             id="password" placeholder="Password" type="password" onChange={(event) => setPassword(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         
                         <p className="text-center text-red-500 pb-8">{`${error}`}</p>
 
                         <button
                             type="submit"
-                            className="text-white bg-sky-300 rounded mb-12 p-2 w-3/6"
+                            className="text-white bg-sky-300 rounded-full mb-12 p-2 w-3/6"
                         >
                             Log In
                         </button>
-                        <a href="#">Forgot your password? Click here</a>
+                        <a href="#">
+                            Forgot your password? {` `}
+                            <span className="font-bold text-blue-800">Click here</span>
+                        </a>
                     </form>
                 </div>
             </div>

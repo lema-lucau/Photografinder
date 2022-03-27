@@ -6,15 +6,26 @@ import { getUserByUserId } from "../services/users";
 import { getUserPhotoshootsByStatus } from "../services/photoshoots";
 import { CONFIRMED, PENDING } from "../constants/photoshoot"
 import { LOGGED_IN_USER } from "../constants/user";
+import { useNavigate } from "react-router-dom";
+import { LOGIN } from "../constants/routes";
 
 export default function Photoshoots() {
     const [scheduledPhotoshoots, setScheduledPhotoshoots] = useState(null);
     const [pendingPhotoshoots, setPendingPhotoshoots] = useState(null);
 
-    useEffect(() => {
-        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
-        let user;
+    const navigate = useNavigate();
 
+    useEffect(() => {
+        document.title = "Photoshoots";
+
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+        
+        // Redirect user if they are not logged in
+        if (firebaseUser === null) {
+            navigate(LOGIN);
+        }
+
+        let user;
         const getUser = async () => {
             user = await getUserByUserId(firebaseUser.uid);
         }

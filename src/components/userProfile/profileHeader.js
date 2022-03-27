@@ -57,7 +57,7 @@ export default function ProfileHeader({user}) {
     const EditButton = () => {
         return(
             <>
-                <button className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                <button className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4">
                     Edit Profile
                 </button>
             </>
@@ -72,7 +72,7 @@ export default function ProfileHeader({user}) {
             return(
                 <>
                     <button 
-                        className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4"
+                        className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4"
                         onClick={() => followAPhotographer(user.uid, loggedInUser.uid)}
                     >
                         Follow
@@ -83,7 +83,7 @@ export default function ProfileHeader({user}) {
             return(
                 <>
                     <button 
-                        className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4"
+                        className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4"
                         onClick={() => unfollowAPhotographer(user.uid, loggedInUser.uid)}
                     >
                         Unfollow
@@ -116,7 +116,7 @@ export default function ProfileHeader({user}) {
                         src={profilePicUrl} alt={`${user.username}'s profile picture`}
                     />
                     <EditButton />
-                    <button onClick={() => {setUploadType("post"); setUploadPhoto(true)}} className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                    <button onClick={() => {setUploadType("post"); setUploadPhoto(true)}} className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4">
                         Upload photo
                     </button>
                 </>
@@ -149,7 +149,7 @@ export default function ProfileHeader({user}) {
             return(
                 <>
                     <FollowButton />
-                    <button onClick={() => setOpened(true)} className="w-full text-center text-white text-lg bg-sky-300 border border-black p-1 mt-4">
+                    <button onClick={() => setOpened(true)} className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4">
                         Book
                     </button>
                 </>
@@ -159,7 +159,7 @@ export default function ProfileHeader({user}) {
     }
 
     return(
-        <div className="grid grid-cols-2 gap-4 border border-black px-12">
+        <div className="grid grid-cols-2 gap-4 border border-black rounded-3xl px-12">
             {/* Profile info */}
             <div className="flex flex-col justify-around py-6">
                 <p className="text-lg italic pt-2">{user.username}</p>
