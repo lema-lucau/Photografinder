@@ -11,7 +11,6 @@ export default function ProfilePhotos({user}) {
         const getPhotos = async () => {
             await getAllPhotographerPosts(user.uid)
             .then(returnedPhotos => setPhotos(returnedPhotos));
-
         }
 
         getPhotos();
