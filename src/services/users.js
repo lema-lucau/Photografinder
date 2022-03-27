@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const usersApi = axios.create({
-    baseURL: "https://photografinder.xyz/users/"
+    // baseURL: "https://photografinder.xyz/users/"
+    baseURL: "http://localhost:9999/users/"
 });
 
 
@@ -49,16 +50,19 @@ export async function getUserByUserId(userId) {
     return(user);
 }
 
-export async function getUserType(userId) {
-    const type = 
-        await usersApi.get(`type/${userId}`)
-        .then(response => response.data);
-        
-    return(type);
-}
-
 export async function getUsersFollowing(userId) {
     let users = await usersApi.get(`following/`, {
+        params: {
+            uid: userId
+        }
+    })
+    .then(response => response.data);
+
+    return(users);
+}
+
+export async function getUserNotFollowingPhotographers(userId) {
+    let users = await usersApi.get(`not-following/`, {
         params: {
             uid: userId
         }

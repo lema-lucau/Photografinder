@@ -56,7 +56,7 @@ export default function Dashboard() {
                     <div className="flex col-span-6 justify-center border-r border-black ml-8">
                         {user?.uid ? <Timeline user={user}/> : null}
                     </div>
-                    <div className="flex col-span-4 justify-center border border-black my-8 mx-8 overflow-y-auto">
+                    <div className="flex col-span-4 justify-center border border-black my-8 mx-4 overflow-y-auto">
                         <div className="flex flex-col items-center w-full">
                             <h1 className="text-xl py-6">Scheduled Photoshoots</h1>
                             <span className="border-b border-black w-full"/>

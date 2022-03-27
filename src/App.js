@@ -10,6 +10,7 @@ import Profile from './pages/profile';
 import Photoshoots from './pages/photoshoots';
 import EditPhotoshoot from "./pages/editPhotoshoot";
 import LoggedInUserExists from './helpers/loggedInUserExists';
+import SuggestedPhotographers from "./components/suggestedPhotographers";
 
 function App() {
   const user = LoggedInUserExists();
@@ -26,6 +27,7 @@ function App() {
             <Route path={ROUTES.PROFILE} element={<Profile />} />
             <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
             <Route path={ROUTES.EDIT_PHOTOSHOOT} element={<EditPhotoshoot />} />
+            <Route path={ROUTES.SUGGEST_PHOTOGRAPHERS} element={<SuggestedPhotographers user={user}/>} />
           </Routes>
         </UserContext.Provider>
       </React.StrictMode>

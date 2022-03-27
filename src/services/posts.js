@@ -1,7 +1,8 @@
 import axios from 'axios';
 
 const postsApi = axios.create({
-    baseURL: "https://photografinder.xyz/posts/"
+    // baseURL: "https://photografinder.xyz/posts/"
+    baseURL: "http://localhost:9999/posts/"
 });
 
 // POST
@@ -52,6 +53,18 @@ export async function getPostById(postId) {
 export async function getAllPhotographerPosts(userId) {
     const posts = 
         await postsApi.get(`retrieve/photographer/${userId}`)
+        .then(response => response.data);
+
+    return posts;
+}
+
+export async function getPhotographerPosts(userId, limit) {
+    const posts = 
+        await postsApi.get(`retrieve/limit/photographer/${userId}`, {
+            params: {
+                limit: limit
+            }
+        })
         .then(response => response.data);
 
     return posts;
