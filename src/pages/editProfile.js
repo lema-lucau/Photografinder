@@ -61,7 +61,7 @@ export default function EditProfile() {
     }
 
     useEffect(() => {
-        document.title = "Setup profile";
+        document.title = "Edit profile";
 
         const fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
 
