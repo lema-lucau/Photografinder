@@ -73,7 +73,6 @@ export default function EditProfile() {
         }
 
         const getUserDetails = async () => {
-            //If a user has an account redirect them to the dashboard
             const returnedUser = await getUserByUserId(userId);
             setUser(returnedUser);
             setFirstName(returnedUser.firstName);

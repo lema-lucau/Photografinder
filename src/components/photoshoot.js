@@ -53,6 +53,10 @@ export default function Photoshoot({id, size='', date, username, location, start
                     opened={viewPhotoshoot}
                     onClose={() => setViewPhotoshoot(false)}
                     size="85%"
+                    styles={{
+                        modal: { backgroundColor: 'rgba(224,242,254,0.1)' },
+                        close: { color: 'black' }
+                    }}
                 >
                     <PhotoshootDetails 
                         username={username} date={formatDate(date, "/")} startTime={startTime} endTime={endTime} 
@@ -98,7 +102,7 @@ export default function Photoshoot({id, size='', date, username, location, start
     if (size === "small") {
         return(
             <div 
-                className="bg-white grid grid-cols-9 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8"
+                className="bg-sky-200 grid grid-cols-9 gap-2 hover:bg-sky-300 w-full rounded-3xl mb-2 p-8"
             >
                 <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-3 overflow-x-auto">{formatDate(date, "/")}</p>
                 <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold text-center col-span-4 overflow-x-auto">{username}</p>
@@ -112,7 +116,7 @@ export default function Photoshoot({id, size='', date, username, location, start
         <>
             { user !== null ?
                 <div 
-                    className="bg-white grid grid-cols-12 gap-2 hover:bg-gray-300 w-full border-t border-b border-black mb-2 p-8"
+                    className="bg-sky-200 grid grid-cols-12 gap-2 hover:bg-sky-300 w-full rounded-3xl mb-2 p-8"
                 >
                     <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-2 overflow-x-auto">{formatDate(date, "/")}</p>
                     <p onClick={() => setViewPhotoshoot(true)} className="text-lg italic font-semibold col-span-3 overflow-x-auto">{username}</p>

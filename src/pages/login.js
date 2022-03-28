@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from '../firebase-config';
 import { Link, useNavigate } from "react-router-dom"
-import { DASHBOARD, REGISTER } from '../constants/routes';
+import { DASHBOARD, REGISTER, RESET_PASSWORD } from '../constants/routes';
 import { LOGGED_IN_USER } from '../constants/user';
 
 export default function Login() {
@@ -22,8 +22,14 @@ export default function Login() {
             localStorage.setItem(LOGGED_IN_USER, JSON.stringify(userCredentials.user));
             navigate(DASHBOARD);
         } catch (error) {
-            console.log(error.message);
-            setError(error.message);
+            // User friendly error messages
+            if(error.code === "auth/user-not-found" || error.code === "auth/wrong-password") {
+                setError("Email or password is incorrect");
+            } else if(error.code === "auth/invalid-email") {
+                setError("Invalid email");
+            } else {
+                setError(error);
+            }
         }
     }
 
@@ -64,16 +70,16 @@ export default function Login() {
                         >
                             Log In
                         </button>
-                        <a href="#">
+                        <Link to={RESET_PASSWORD}>
                             Forgot your password? {` `}
                             <span className="font-bold text-blue-800">Click here</span>
-                        </a>
+                        </Link>
                     </form>
                 </div>
             </div>
 
             {/* Don't have an account */}
-            <div className="container flex flex-col mx-auto items-center bg-white border border-gray-400 rounded p-4 w-4/5">
+            <div className="container flex flex-col mx-auto items-center bg-white border border-gray-400 rounded-3xl p-4 w-4/5">
                 <Link to={REGISTER}>
                     Don't have an account?{` `}
                     <span className="font-bold text-blue-800"> Create an account</span>
