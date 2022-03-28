@@ -38,7 +38,11 @@ export default function Login() {
                     <img className="rounded" src="images\login_page_camera.jpg" alt="camera"/>
                 </div>
                 <div className="flex flex-col w-3/5 items-center p-4 bg-white border border-gray-400 rounded">
-                    <h1 className="text-4xl font-bold italic mt-36">Photografinder</h1>
+                    <div className="flex flex-row mt-36">
+                        <img className="w-14 h-14" src="https://photografinder.s3.eu-west-1.amazonaws.com/logo512.png" alt="camera shutter"/>
+                         <img className="w-14 h-14" src="https://img.icons8.com/ios-glyphs/1080/000000/vertical-line.png" alt="vertical line"/>
+                        <h1 className="text-4xl font-bold italic mt-1">Photografinder</h1>
+                    </div>
 
                     {/* Form */}
                     <form className="flex flex-col items-center w-full my-12" onSubmit={handleLogin} method="POST">

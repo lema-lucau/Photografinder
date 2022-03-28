@@ -119,8 +119,8 @@ export default function EditPhotoshoot() {
             <div className="flex flex-row h-screen">
                 <Sidebar />
                 {photoshoot !== null && user !== null && photographer !== null && client !== null ? 
-                    <div className="flex w-full py-8">
-                        <form onSubmit={updatePhotoshoot} method="POST" className="w-5/6 overflow-y-auto mx-auto px-24 py-10 border border-black rounded-3xl">
+                    <div className="flex w-full py-8 bg-sky-300">
+                        <form onSubmit={updatePhotoshoot} method="POST" className="w-5/6 overflow-y-auto mx-auto px-24 py-10 border border-black rounded-3xl bg-white">
                             <p className="text-2xl flex justify-center pr-4">
                                 <span className="font-bold pr-2">{client.username}</span>
                                 & 

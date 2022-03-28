@@ -5,6 +5,7 @@ import { getUserByUserId, followPhotographer, unfollowPhotographer } from "../..
 import { getAllPhotographerPosts } from "../../services/posts";
 import BookingForm from "../bookingForm";
 import UploadPhoto from "../uploadPhoto";
+import { useNavigate } from "react-router-dom";
 
 export default function ProfileHeader({user}) {
     // States and variables
@@ -16,6 +17,8 @@ export default function ProfileHeader({user}) {
     const [uploadPhoto, setUploadPhoto] = useState(false);
     const [uploadType, setUploadType] = useState("");
     const [opened, setOpened] = useState(false);
+
+    const navigate = useNavigate();
 
     let profilePicUrl;
 
@@ -57,7 +60,10 @@ export default function ProfileHeader({user}) {
     const EditButton = () => {
         return(
             <>
-                <button className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4">
+                <button 
+                    className="w-full text-center text-white text-xl bg-sky-300 rounded-full p-2 mt-4"
+                    onClick={() => {navigate(`/edit-profile/${loggedInUser.uid}`)}}
+                >
                     Edit Profile
                 </button>
             </>
