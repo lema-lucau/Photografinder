@@ -3,6 +3,7 @@ export const LOGIN = "/login";
 export const REGISTER = "/register";
 export const SETUP_PROFILE = "/setup-profile"
 export const PROFILE = "/p/:username";
+export const EDIT_PROFILE = "/edit-profile/:userId"
 export const PHOTOSHOOTS = "/photoshoots"
 export const EDIT_PHOTOSHOOT = "/edit-photoshoot/:photoshootId"
 export const SUGGEST_PHOTOGRAPHERS = "/suggestions"

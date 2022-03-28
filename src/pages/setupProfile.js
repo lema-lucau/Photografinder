@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { DASHBOARD } from "../constants/routes";
+import { DASHBOARD, LOGIN } from "../constants/routes";
 import { LOGGED_IN_USER } from "../constants/user";
-import { createNewUser, getUserByUsername } from "../services/users";
+import { createNewUser, getUserByUserId, getUserByUsername } from "../services/users";
 
 export default function SetupProfile() {
-    const [uid, setUid] = useState(JSON.parse(localStorage.getItem(LOGGED_IN_USER)).uid );
-    const [email, setEmail] = useState(JSON.parse(localStorage.getItem(LOGGED_IN_USER)).email );
+    const [uid, setUid] = useState("");
+    const [email, setEmail] = useState("");
     const [userType, setUserType] = useState("");
 
     const [firstName, setFirstName] = useState("");
@@ -94,7 +94,29 @@ export default function SetupProfile() {
     }
 
     useEffect(() => {
-        document.title = "Setup profile - Photografinder";
+        document.title = "Setup profile";
+
+        const fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        // Redirect user if they are not logged in
+        if (fbUser === null) {
+            navigate(LOGIN);
+        }
+
+        const getUser = async () => {
+            //If a user has an account redirect them to the dashboard
+            const user = await getUserByUserId(fbUser.uid);
+
+            if (user !== null) {
+                navigate(DASHBOARD);
+            } else {
+                // Set the uid and email
+                setEmail(fbUser.email);
+                setUid(fbUser.uid);
+            }
+        }
+
+        getUser();
     }, []);
     
     return(
@@ -137,20 +159,20 @@ export default function SetupProfile() {
 
                         <input 
                             id="firstName" placeholder="First Name*" type="text" onChange={(event) => setFirstName(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         <input 
                             id="lastName" placeholder="Last Name*" type="text" onChange={(event) => setLastName(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         <input 
                             id="username" placeholder="Username*" type="text" onChange={(event) => setUsername(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         <textarea 
                             id="bio" placeholder="Tell us a little about yourself..." rows="8" 
                             onChange={(event) => setBio(event.target.value)}
-                            className="text-m bg-gray-200 border border-gray-400 rounded w-5/6 mb-12 p-2"
+                            className="text-m bg-gray-200 border border-gray-400 rounded-2xl w-5/6 mb-12 p-2"
                         />
 
                         {/* Choose which form to display  */}
@@ -158,19 +180,19 @@ export default function SetupProfile() {
                             <input 
                                 id="minRate" placeholder="Minimum rate per hour (example: 150)" type="text" 
                                 onChange={(event) => setMinRate(event.target.value)}
-                                className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                                className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                             />
                             <input 
                                 id="location" placeholder="Where you are based (example: SnapIt Studios, Dublin 18, Co. Dublin, A12 BC34)" type="text"
                                 onChange={(event) => setLocation(event.target.value)}
-                                className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                                className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                             />
                         </div>
 
                         <p className="text-center text-red-500 pb-8">{error}</p>
                         <button
                             type="submit"
-                            className="text-white bg-sky-300 mt-8 mb-12 p-2 w-3/6"
+                            className="text-white bg-sky-300 mt-8 mb-12 p-2 w-3/6 rounded-full"
                         >
                             Create account
                         </button>

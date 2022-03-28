@@ -28,7 +28,7 @@ export default function Login() {
     }
 
     useEffect(() => {
-        document.title = "Login - Photografinder";
+        document.title = "Login";
     }, []);
 
     return(
@@ -38,29 +38,36 @@ export default function Login() {
                     <img className="rounded" src="images\login_page_camera.jpg" alt="camera"/>
                 </div>
                 <div className="flex flex-col w-3/5 items-center p-4 bg-white border border-gray-400 rounded">
-                    <h1 className="text-4xl font-bold italic mt-36">Photografinder</h1>
+                    <div className="flex flex-row mt-36">
+                        <img className="w-14 h-14" src="https://photografinder.s3.eu-west-1.amazonaws.com/logo512.png" alt="camera shutter"/>
+                         <img className="w-14 h-14" src="https://img.icons8.com/ios-glyphs/1080/000000/vertical-line.png" alt="vertical line"/>
+                        <h1 className="text-4xl font-bold italic mt-1">Photografinder</h1>
+                    </div>
 
                     {/* Form */}
                     <form className="flex flex-col items-center w-full my-12" onSubmit={handleLogin} method="POST">
                         <input 
                             id="email" placeholder="Email" type="text" onChange={(event) => setEmail(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         
                         <input 
                             id="password" placeholder="Password" type="password" onChange={(event) => setPassword(event.target.value)}
-                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded mb-12 p-2"
+                            className="text-m w-5/6 bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2"
                         />
                         
                         <p className="text-center text-red-500 pb-8">{`${error}`}</p>
 
                         <button
                             type="submit"
-                            className="text-white bg-sky-300 rounded mb-12 p-2 w-3/6"
+                            className="text-white bg-sky-300 rounded-full mb-12 p-2 w-3/6"
                         >
                             Log In
                         </button>
-                        <a href="#">Forgot your password? Click here</a>
+                        <a href="#">
+                            Forgot your password? {` `}
+                            <span className="font-bold text-blue-800">Click here</span>
+                        </a>
                     </form>
                 </div>
             </div>

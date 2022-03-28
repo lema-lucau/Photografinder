@@ -11,6 +11,7 @@ import Photoshoots from './pages/photoshoots';
 import EditPhotoshoot from "./pages/editPhotoshoot";
 import LoggedInUserExists from './helpers/loggedInUserExists';
 import SuggestedPhotographers from "./components/suggestedPhotographers";
+import EditProfile from "./pages/editProfile";
 
 function App() {
   const user = LoggedInUserExists();
@@ -20,11 +21,12 @@ function App() {
       <React.StrictMode>
         <UserContext.Provider value={user}>
           <Routes>
-            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.LOGIN} element={<Login />} />
             <Route path={ROUTES.REGISTER} element={<Register />} />
+            <Route path={ROUTES.DASHBOARD} element={<Dashboard />} />
             <Route path={ROUTES.SETUP_PROFILE} element={<SetupProfile />} />
             <Route path={ROUTES.PROFILE} element={<Profile />} />
+            <Route path={ROUTES.EDIT_PROFILE} element={<EditProfile />} />
             <Route path={ROUTES.PHOTOSHOOTS} element={<Photoshoots />} />
             <Route path={ROUTES.EDIT_PHOTOSHOOT} element={<EditPhotoshoot />} />
             <Route path={ROUTES.SUGGEST_PHOTOGRAPHERS} element={<SuggestedPhotographers user={user}/>} />

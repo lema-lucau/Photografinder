@@ -1,9 +1,11 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
 import Photoshoot from "../components/photoshoot";
 import Sidebar from "../components/sidebar";
 import Timeline from "../components/timeline";
 import { CONFIRMED } from "../constants/photoshoot";
+import { LOGIN } from "../constants/routes";
 import { LOGGED_IN_USER } from "../constants/user";
 import { getUserPhotoshootsByStatus } from "../services/photoshoots";
 import { getUserByUserId } from "../services/users";
@@ -12,10 +14,19 @@ export default function Dashboard() {
     const [photoshoots , setPhotoshoots] = useState(null);
     const [user, setUser] = useState(null);
     
+    const navigate = useNavigate();
+    
     useEffect(() => {
-        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
-        let user;
+        document.title = "Dashboard";
 
+        const firebaseUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        // Redirect user if they are not logged in
+        if (firebaseUser === null) {
+            navigate(LOGIN);
+        }
+        
+        let user;
         const getUser = async () => {
             user = await getUserByUserId(firebaseUser.uid);
             setUser(user);
@@ -38,7 +49,7 @@ export default function Dashboard() {
                 }
             });
 
-            setTimeout(() => {setPhotoshoots(photoshoots)}, 300)
+            setTimeout(() => {setPhotoshoots(photoshoots)}, 500)
         }
 
         getUser();

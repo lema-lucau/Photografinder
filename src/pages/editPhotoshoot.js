@@ -6,7 +6,7 @@ import { amendPhotoshoot, getPhotoshootById } from "../services/photoshoots";
 import { LOGGED_IN_USER } from "../constants/user";
 import { getUserByUserId } from "../services/users";
 import { PENDING } from "../constants/photoshoot";
-import { PHOTOSHOOTS } from "../constants/routes";
+import { LOGIN, PHOTOSHOOTS } from "../constants/routes";
 import { formatDate, concatTime, isUserOccupied } from "../helpers/photoshootFunctions";
 
 export default function EditPhotoshoot() {
@@ -28,7 +28,14 @@ export default function EditPhotoshoot() {
     const [photographerNotes, setPhotographerNotes] = useState("");
 
     useEffect(() => {
+        document.title = "Edit photoshoot";
+
         const fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        // Redirect user if they are not logged in
+        if (fbUser === null) {
+            navigate(LOGIN);
+        }
 
         const getPhotoshootClientAndPhotographer = async () => {
             const returnedPhotoshoot = await getPhotoshootById(photoshootId);
@@ -112,8 +119,8 @@ export default function EditPhotoshoot() {
             <div className="flex flex-row h-screen">
                 <Sidebar />
                 {photoshoot !== null && user !== null && photographer !== null && client !== null ? 
-                    <div className="flex w-full py-8">
-                        <form onSubmit={updatePhotoshoot} method="POST" className="w-5/6 overflow-y-auto mx-auto px-24 py-10 border border-black rounded-2xl">
+                    <div className="flex w-full py-8 bg-sky-300">
+                        <form onSubmit={updatePhotoshoot} method="POST" className="w-5/6 overflow-y-auto mx-auto px-24 py-10 border border-black rounded-3xl bg-white">
                             <p className="text-2xl flex justify-center pr-4">
                                 <span className="font-bold pr-2">{client.username}</span>
                                 & 
@@ -128,7 +135,7 @@ export default function EditPhotoshoot() {
                             <div className="grid grid-cols-3 gap-0 mt-16">
                                 <label htmlFor="date" className="text-lg font-bold col-span-1">Date:</label>
                                 <input 
-                                    id="date" type="date" className="text-m w-full bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                                    id="date" type="date" className="text-m w-full bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2 col-span-2"
                                     defaultValue={formatDate(photoshoot.date, "-", "YYYYMMDD")}
                                     onChange={(event) => setDate(event.target.value)}
                                     required
@@ -138,7 +145,7 @@ export default function EditPhotoshoot() {
                                 <input 
                                     id="fromTime" name="fromTime" type="time" step="900"
                                     defaultValue={photoshoot.startTime}
-                                    className="text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                                    className="text-m bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2 col-span-2"
                                     onChange={(event) => setFromTime(event.target.value)}
                                     required
                                 />
@@ -147,7 +154,7 @@ export default function EditPhotoshoot() {
                                 <input 
                                     id="toTime" name="toTime" type="time" step="900"
                                     defaultValue={photoshoot.endTime}
-                                    className="text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                                    className="text-m bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2 col-span-2"
                                     onChange={(event) => setToTime(event.target.value)}
                                     required
                                 />
@@ -156,7 +163,7 @@ export default function EditPhotoshoot() {
                                 <input 
                                     id="location" placeholder="St. James Park, Dublin, X41 KS57" type="text" 
                                     defaultValue={photoshoot.location}
-                                    className="text-m w-full bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2"
+                                    className="text-m w-full bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2 col-span-2"
                                     onChange={(event) => setLocation(event.target.value)}
                                     required
                                 />
@@ -165,7 +172,7 @@ export default function EditPhotoshoot() {
                                 <textarea 
                                     id="clientNotes" placeholder="Enter any notes that you have for the photographer here..." rows="5" cols="50"
                                     defaultValue={photoshoot.clientNotes}
-                                    className={`text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2 ${user.uid === client.uid ? '' : 'pointer-events-none'}`}
+                                    className={`text-m bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2 col-span-2 ${user.uid === client.uid ? '' : 'pointer-events-none'}`}
                                     onChange={(event) => setClientNotes(event.target.value)}
                                 >
                                 </textarea>
@@ -174,7 +181,7 @@ export default function EditPhotoshoot() {
                                 <textarea 
                                     id="photographerNotes" placeholder="Enter any notes that you have for the client here..." rows="5" cols="50"
                                     defaultValue={photoshoot.photographerNotes}
-                                    className={`text-m bg-gray-200 border border-gray-400 rounded mb-12 p-2 col-span-2 ${user.uid === photographer.uid ? '' : 'pointer-events-none'}`}
+                                    className={`text-m bg-gray-200 border border-gray-400 rounded-2xl mb-12 p-2 col-span-2 ${user.uid === photographer.uid ? '' : 'pointer-events-none'}`}
                                     onChange={(event) => setPhotographerNotes(event.target.value)}
                                 >
 
@@ -194,7 +201,7 @@ export default function EditPhotoshoot() {
                             <div className="flex justify-end">
                                 <button 
                                     type="submit"
-                                    id="request" className="text-white px-12 py-2 bg-sky-400 rounded-lg"
+                                    id="request" className="text-white px-12 py-2 bg-sky-400 rounded-full"
                                 >
                                     Amend photoshoot
                                 </button>
