@@ -1,3 +1,4 @@
+import { Skeleton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { DASHBOARD, PHOTOSHOOTS } from "../../constants/routes";
@@ -41,7 +42,13 @@ export default function SuggestedPhotographers({user}) {
                 <Sidebar />
                 <div className="flex flex-col w-full mx-12 my-12 overflow-y-auto">
                     <h1 className="text-center text-3xl italic font-semibold mb-8">Suggested photographers to follow</h1>
-                    {user?.uid && photographers?.length > 0 ? 
+                    {!user || !photographers ? (
+                        <div className="grid grid-flow-row gap-8">
+                            <Skeleton className="rounded-3xl" height={384} />
+                            <Skeleton className="rounded-3xl" height={384} />
+                        </div>
+                    )
+                    : user?.uid && photographers?.length > 0 ? 
                         photographers.map((photographer) => {
                             return <DisplayPhotographer key={photographer.uid} photographer={photographer} user={user}/>
                         })
@@ -70,7 +77,6 @@ export default function SuggestedPhotographers({user}) {
                                     </div>
                                 </>
                             : null}
-
                         </div>
                     }
 

@@ -1,4 +1,4 @@
-import { Menu, MenuItem, MenuLabel, Modal } from "@mantine/core";
+import { Menu, MenuItem, MenuLabel, Modal, Skeleton } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { LOGGED_IN_USER } from "../constants/user";
@@ -180,7 +180,14 @@ export default function Photoshoot({id, size='', date, username, location, start
                     {/* Display photoshoot details */}
                     <DisplayPhotoshoot />
                 </div>
-            : null }
+            : 
+                <>
+                    <Skeleton className="mt-2 mb-2 rounded-3xl" height={96} /> 
+                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                </>
+            }
         </>
     );
 }
