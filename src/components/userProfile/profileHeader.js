@@ -165,7 +165,7 @@ export default function ProfileHeader({user}) {
     }
 
     return(
-        <div className="grid grid-cols-2 gap-4 border border-black rounded-3xl px-12">
+        <div className="grid grid-cols-2 gap-4 border border-black rounded-3xl px-12 bg-gray-50">
             {/* Profile info */}
             <div className="flex flex-col justify-around py-6">
                 <p className="text-lg italic pt-2">{user.username}</p>
