@@ -36,7 +36,7 @@ export default function ProfilePhotos({user}) {
                 opened={opened}
                 onClose={() => setOpened(false)}
                 centered={true}
-                size="40%"
+                size="60%"
                 padding="0px"
                 styles={{
                     modal: { backgroundColor: 'rgba(0,0,0,0.0)' },
@@ -44,8 +44,15 @@ export default function ProfilePhotos({user}) {
                 }}
             >
                 {image?.imageUrl ? 
-                    <div className="flex justify-center">
+                    <div className="flex flex-row justify-center">
                         <img className="object-cover w-[600px] h-[600px]" src={image.imageUrl} alt={image.imageName}/>
+
+                        <div className="flex flex-row my-auto ml-12">
+                            <img className="object-cover w-8 h-8" src="../images/heart_filled.png" alt="heart"/>
+                            <p className="text-2xl text-white ml-2">
+                                {image.likes.length} {image.likes.length === 1 ? "like" : "likes"}
+                            </p>
+                        </div>
                     </div>
                 : null}
             </Modal>
