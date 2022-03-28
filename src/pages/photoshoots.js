@@ -85,9 +85,10 @@ export default function Photoshoots() {
                 <Sidebar />
                 <div className="w-full overflow-y-auto">
                     {/* Scheduled photoshoots */}
-                    <div className="flex flex-col h-4/6 my-12 mx-12 border border-black rounded bg-gray-100">
-                        <div className="flex justify-center bg-white border border-b-black py-8">
-                            <h1 className="text-2xl">Scheduled Photoshoots</h1>
+                    <div className="flex flex-col h-4/6 my-12 mx-12 rounded-3xl bg-sky-100">
+                        <div className="flex flex-col justify-center bg-sky-100 rounded-3xl pt-8">
+                            <h1 className="text-2xl text-center font-semibold italic mb-4">Scheduled Photoshoots</h1>
+                            <span className="w-full border-b border-black mb-6"/>
                         </div>
                         <div className="overflow-y-auto">
                             {scheduledPhotoshoots !== null ?
@@ -106,9 +107,10 @@ export default function Photoshoots() {
                     </div>
 
                     {/* Pending photoshoots */}
-                    <div className="flex flex-col h-4/6 my-12 mx-12 border border-black rounded bg-gray-100">
-                        <div className="flex justify-center w-full bg-white border border-b-black py-8">
-                            <h1 className="text-2xl">Pending Photoshoots</h1>
+                    <div className="flex flex-col h-4/6 my-12 mx-12 rounded-3xl bg-sky-100">
+                        <div className="flex flex-col justify-center bg-sky-100 rounded-3xl pt-8">
+                            <h1 className="text-2xl text-center font-semibold italic mb-4">Pending Photoshoots</h1>
+                            <span className="w-full border-b border-black mb-6"/>
                         </div>
                         <div className="overflow-y-auto">
                             {pendingPhotoshoots !== null ?

@@ -22,7 +22,7 @@ export default function PhotoshootDetails({username, status, date, startTime, en
     }
 
     return(
-        <div className="flex flex-col w-5/6 mx-auto py-12 border border-black rounded-3xl">
+        <div className="flex flex-col w-5/6 mx-auto py-12 border border-black rounded-3xl bg-sky-50">
             <h3 className="text-center text-2xl font-bold mb-8">Photoshoot with {username}</h3>
             <div className="grid grid-cols-3 gap-16 mx-auto mt-4">
                 <DisplayStatus />
