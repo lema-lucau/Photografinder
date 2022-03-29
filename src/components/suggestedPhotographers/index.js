@@ -1,3 +1,4 @@
+import { Skeleton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { DASHBOARD, PHOTOSHOOTS } from "../../constants/routes";
@@ -9,8 +10,11 @@ import DisplayPhotographer from "./displayPhotographer";
 export default function SuggestedPhotographers({user}) {
     const [photographers, setPhotographers] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
+    let shuffledPhotographers = [];
 
     useEffect(() => {        
+        document.title = "Suggestions";
+
         const getUserDetails = async () => {
             const returnedUser = await getUserByUserId(user.uid);
             setUserDetails(returnedUser);
@@ -18,7 +22,16 @@ export default function SuggestedPhotographers({user}) {
 
         const getPhotographers = async () => {
             const returnedPhotographers = await getUserNotFollowingPhotographers(user.uid);
-            setPhotographers(returnedPhotographers);
+
+            // Shuffle list of photographers (Fisher-Yates algorithm)
+            while (returnedPhotographers.length) {
+                let index =  Math.floor(Math.random() * returnedPhotographers.length);
+                let photographer = returnedPhotographers.splice(index, 1);
+
+                shuffledPhotographers.push(photographer[0]);
+            }
+
+            setPhotographers(shuffledPhotographers);
         }
 
         getUserDetails();
@@ -41,7 +54,13 @@ export default function SuggestedPhotographers({user}) {
                 <Sidebar />
                 <div className="flex flex-col w-full mx-12 my-12 overflow-y-auto">
                     <h1 className="text-center text-3xl italic font-semibold mb-8">Suggested photographers to follow</h1>
-                    {user?.uid && photographers?.length > 0 ? 
+                    {!user || !photographers ? (
+                        <div className="grid grid-flow-row gap-8">
+                            <Skeleton className="rounded-3xl" height={384} />
+                            <Skeleton className="rounded-3xl" height={384} />
+                        </div>
+                    )
+                    : user?.uid && photographers?.length > 0 ? 
                         photographers.map((photographer) => {
                             return <DisplayPhotographer key={photographer.uid} photographer={photographer} user={user}/>
                         })
@@ -70,7 +89,6 @@ export default function SuggestedPhotographers({user}) {
                                     </div>
                                 </>
                             : null}
-
                         </div>
                     }
 

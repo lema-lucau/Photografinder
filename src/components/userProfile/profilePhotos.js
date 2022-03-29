@@ -1,4 +1,4 @@
-import { Modal } from "@mantine/core";
+import { Modal, Skeleton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { getAllPhotographerPosts } from "../../services/posts";
 
@@ -19,7 +19,18 @@ export default function ProfilePhotos({user}) {
     return(
         <div className="grid grid-cols-3 gap-8 justify-items-center mt-4 py-4">
             <>
-            {photos !== null ? 
+            { !photos ? 
+                <>
+                    <Skeleton className="w-[450px]" height={450}/>
+                    <Skeleton className="w-[450px]" height={450}/>
+                    <Skeleton className="w-[450px]" height={450}/>
+
+                    <Skeleton className="w-[450px]" height={450}/>
+                    <Skeleton className="w-[450px]" height={450}/>
+                    <Skeleton className="w-[450px]" height={450}/>
+                </>
+            
+            : photos !== null ? 
                 photos.map((photo) => { 
                     return (
                         <img 

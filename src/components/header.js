@@ -6,6 +6,7 @@ import { auth } from "../firebase-config";
 import Logo from "./logo";
 import { getUserByUserId } from "../services/users";
 import { LOGGED_IN_USER } from "../constants/user";
+import { Skeleton } from "@mantine/core";
 
 export default function Header() {
     const [user, setUser] = useState(null);
@@ -66,7 +67,7 @@ export default function Header() {
                             alt={`${username}'s profile picture`}/>
                         </Link>
                         :
-                        null
+                        <Skeleton height={96} circle />
                     }
                 </div>
             </div>

@@ -4,6 +4,7 @@ import { DASHBOARD, PHOTOSHOOTS, SUGGEST_PHOTOGRAPHERS } from "../../constants/r
 import Icon from "./icon";
 import { getUserByUserId } from "../../services/users";
 import { LOGGED_IN_USER } from "../../constants/user";
+import { Skeleton } from "@mantine/core";
 
 export default function Sidebar() {
     const [user, setUser] = useState(null);
@@ -30,14 +31,18 @@ export default function Sidebar() {
                 <Link to={`/p/${user.username}`}>
                     <Icon iconURL="https://img.icons8.com/color/344/group.png" text="Profile" alt="profile"/>
                 </Link>
+
+                <Link to={PHOTOSHOOTS}>
+                    <Icon iconURL="https://img.icons8.com/color/344/professional-photographer.png" text="Photoshoots" alt="photoshoots"/>
+                </Link>
                 </>
                 :
-                null
+                <>
+                    <Skeleton className="rounded-3xl" height={80} />
+                    <Skeleton className="rounded-3xl" height={80} />
+                    <Skeleton className="rounded-3xl" height={80} />
+                </>
             }
-
-            <Link to={PHOTOSHOOTS}>
-                <Icon iconURL="https://img.icons8.com/color/344/professional-photographer.png" text="Photoshoots" alt="photoshoots"/>
-            </Link>
         </div>
     );
 }

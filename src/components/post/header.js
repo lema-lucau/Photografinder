@@ -1,8 +1,4 @@
 export default function Header({username, profilePic}) {
-    if (profilePic === "") {
-        profilePic = "../images/default_user_icon.png";
-    }
-
     return(
         <div className="border border-black rounded-t-3xl bg-gray-100">
             <div className="flex flex-row mx-4 py-4">

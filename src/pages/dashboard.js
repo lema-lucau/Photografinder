@@ -1,3 +1,4 @@
+import { Skeleton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Header from "../components/header";
@@ -49,7 +50,7 @@ export default function Dashboard() {
                 }
             });
 
-            setTimeout(() => {setPhotoshoots(photoshoots)}, 500)
+            setTimeout(() => {setPhotoshoots(photoshoots)}, 800)
         }
 
         getUser();
@@ -74,7 +75,18 @@ export default function Dashboard() {
                             <span className="border-b border-black w-full mb-6"/>
 
                             <div className="w-full h-full overflow-y-auto">
-                                {photoshoots !== null ?
+                                { !photoshoots ?
+                                    <>
+                                        <Skeleton className="mt-2 mb-2 rounded-3xl" height={96} /> 
+                                        <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                        <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                        <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                    </>
+                                : photoshoots.length === 0 ? 
+
+                                <p className="text-2xl text-center">No confirmed photoshoots to display</p>
+
+                                : photoshoots !== null ?
                                     photoshoots.map((photoshoot) => {
                                         return (
                                             <Photoshoot 
@@ -84,9 +96,7 @@ export default function Dashboard() {
                                             />
                                         );
                                     })
-                                    : 
-                                    null
-                                }
+                                : null}
                             </div>
                         </div>
 

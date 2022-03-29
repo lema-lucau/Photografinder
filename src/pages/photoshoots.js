@@ -8,6 +8,7 @@ import { CONFIRMED, PENDING } from "../constants/photoshoot"
 import { LOGGED_IN_USER } from "../constants/user";
 import { useNavigate } from "react-router-dom";
 import { LOGIN } from "../constants/routes";
+import { Skeleton } from "@mantine/core";
 
 export default function Photoshoots() {
     const [scheduledPhotoshoots, setScheduledPhotoshoots] = useState(null);
@@ -68,7 +69,7 @@ export default function Photoshoots() {
             });
 
             // Set timeout to make sure username is received
-            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 500)
+            setTimeout(() => {setPendingPhotoshoots(photoshoots)}, 800)
         }
 
         getUser();
@@ -91,7 +92,19 @@ export default function Photoshoots() {
                             <span className="w-full border-b border-black mb-6"/>
                         </div>
                         <div className="overflow-y-auto">
-                            {scheduledPhotoshoots !== null ?
+                            { !scheduledPhotoshoots ?
+                                <>
+                                    <Skeleton className="mt-2 mb-2 rounded-3xl" height={96} /> 
+                                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                </>
+
+                            : scheduledPhotoshoots.length === 0 ?
+
+                            <p className="text-2xl text-center">No confirmed photoshoots</p>
+
+                            : scheduledPhotoshoots !== null ?
                                 scheduledPhotoshoots.map((photoshoot) => {
                                     return(
                                         <Photoshoot 
@@ -113,9 +126,21 @@ export default function Photoshoots() {
                             <span className="w-full border-b border-black mb-6"/>
                         </div>
                         <div className="overflow-y-auto">
-                            {pendingPhotoshoots !== null ?
+                            { !pendingPhotoshoots ?
+                                <>
+                                    <Skeleton className="mt-2 mb-2 rounded-3xl" height={96} /> 
+                                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                    <Skeleton className="mb-2 rounded-3xl" height={96} /> 
+                                </>
+
+                            : pendingPhotoshoots.length === 0 ?
+
+                            <p className="text-2xl text-center">No pending photoshoots</p>
+
+                            : pendingPhotoshoots !== null ?
                                 pendingPhotoshoots.map((photoshoot) => {
-                                    return (
+                                    return(
                                         <Photoshoot 
                                             key={photoshoot.id}
                                             {...photoshoot}

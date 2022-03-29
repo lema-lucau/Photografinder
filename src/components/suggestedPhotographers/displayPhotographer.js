@@ -1,3 +1,4 @@
+import { Skeleton } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { getPhotographerPosts } from "../../services/posts";
 import Profile from "./profile";
@@ -20,7 +21,19 @@ export default function DisplayPhotographer({photographer, user}) {
                 <div className="col-span-2">
                     <Profile photographer={photographer} user={user}/>
                 </div>
-                {photos !== null ?
+                { !photos ?
+                    <>
+                        <Skeleton className="col-span-2" height={383} />
+                        <Skeleton className="col-span-2" height={383} />
+                    </>
+                : photos?.length === 0 ? 
+                    <p className="text-2xl text-center w-96 pt-36">Photographer has no photos :(</p>
+                : photos?.length === 1 ?
+                    <>
+                        <img key={photos[0].id} className="col-span-2 h-[383px]" src={photos[0].imageUrl}/>
+                        <span className="w-96"/>
+                    </>
+                : photos !== null ?
                     photos.map((photo) => {
                         return <img key={photo.id} className="col-span-2 h-[383px]" src={photo.imageUrl}/>
                     })
