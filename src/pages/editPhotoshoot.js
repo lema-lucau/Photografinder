@@ -7,12 +7,14 @@ import { LOGGED_IN_USER } from "../constants/user";
 import { getUserByUserId } from "../services/users";
 import { PENDING } from "../constants/photoshoot";
 import { LOGIN, PHOTOSHOOTS } from "../constants/routes";
-import { formatDate, concatTime, isUserOccupied } from "../helpers/photoshootFunctions";
+import { formatDate, concatTime, isUserOccupied, isValidTime } from "../helpers/photoshootFunctions";
 
 export default function EditPhotoshoot() {
     const {photoshootId} = useParams();
     const [photoshoot, setPhotoshoot] = useState(null);
     const [photoshootsExists, setPhotoshootExists] = useState(null);
+    const [error, setError] = useState("");
+
     const [photographer, setPhotographer] = useState(null);
     const [client, setClient] = useState(null);
     const [user, setUser] = useState(null);
@@ -94,6 +96,13 @@ export default function EditPhotoshoot() {
             editedBy = "Client";
         } else if (user.uid === photographer.uid) {
             editedBy = "Photographer";
+        }
+
+        const validTime = isValidTime(date, fromTime, toTime);
+
+        if (!validTime) {
+            setError("Invalid time range. End time must be greater than start time");
+            return;
         }
 
         const updatedPhotoshoot = {
@@ -187,6 +196,8 @@ export default function EditPhotoshoot() {
 
                                 </textarea>
                             </div>
+
+                            <p className="text-center text-red-500 mb-4">{error}</p>
 
                             {photoshootsExists?.id ? 
                                 <div className="text-center text-red-500 mb-4">
