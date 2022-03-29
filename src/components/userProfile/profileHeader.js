@@ -1,4 +1,4 @@
-import { Modal } from "@mantine/core";
+import { Modal, Skeleton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { LOGGED_IN_USER } from "../../constants/user";
 import { getUserByUserId, followPhotographer, unfollowPhotographer } from "../../services/users";
@@ -182,10 +182,16 @@ export default function ProfileHeader({user}) {
                             <span className="font-bold">Location: </span>
                             {user.location === "" ? "Not specified" : user.location}
                         </p>
-                        <p className="pt-4">
-                            <span className="font-bold">{numPhotos}</span> {numPhotos === 1 ? "Photo" : "Photos"},
-                            <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
-                        </p>
+                        {!numPhotos ?
+                            <Skeleton className="w-2/5 mt-4" height={16} />
+                        :
+                            <>
+                                <p className="pt-4">
+                                    <span className="font-bold">{numPhotos}</span> {numPhotos === 1 ? "Photo" : "Photos"},
+                                    <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
+                                </p>
+                            </>
+                        }
                     </>
                     : null
                 }
@@ -193,7 +199,13 @@ export default function ProfileHeader({user}) {
             {/* Profile picture and buttons */}
             <div className="flex flex-col items-end py-6">
                 <div className="flex flex-col items-center">
-                    {fbUser?.uid && loggedInUser?.uid ?
+                    { !fbUser || !loggedInUser ?
+                        <>
+                            <Skeleton height={192} circle/>
+                            <Skeleton className="w-full rounded-full mt-4" height={44}/>
+                            <Skeleton className="w-full rounded-full mt-4" height={44}/>
+                        </>
+                    : fbUser?.uid && loggedInUser?.uid ?
                         <>
                             <IsOwnProfile />
                             <ProfileButtons />

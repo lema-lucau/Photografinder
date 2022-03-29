@@ -35,6 +35,13 @@ export default function Login() {
 
     useEffect(() => {
         document.title = "Login";
+
+        // Redirect user to dashboard if they are logged in 
+        const fbUser = JSON.parse(localStorage.getItem(LOGGED_IN_USER));
+
+        if (fbUser !== null) {
+            navigate(DASHBOARD);
+        }
     }, []);
 
     return(
