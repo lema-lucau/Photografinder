@@ -1,3 +1,4 @@
+import { Skeleton } from "@mantine/core";
 import { useState, useEffect } from "react";
 import { getUserByUserId } from "../../services/users";
 import Footer from "./footer";
@@ -15,7 +16,12 @@ export default function Post({photo, user}) {
             
             // Set state if component is mounted
             if (isMounted) {
-                setProfilePicUrl(user.profilePicUrl);
+                if (user.profilePicUrl === "") {
+                    setProfilePicUrl("https://photografinder.s3.eu-west-1.amazonaws.com/default_user_icon.png")
+                } else {
+                    setProfilePicUrl(user.profilePicUrl);
+                }
+
                 setUsername(user.username);
             }   
         }
@@ -30,7 +36,16 @@ export default function Post({photo, user}) {
     return(
         
         <div className="mt-12">
-            {profilePicUrl !== null && username !== null? 
+            { !profilePicUrl || !username ?
+                <Skeleton>
+                    <Header username={username} profilePic={profilePicUrl}/>
+                    <img 
+                        className="object-cover w-full h-[550px] border border-t-0 border-b-0 border-black" 
+                        src={photo.imageUrl} alt={photo.imageName}
+                    />
+                    <Footer postId={photo.id} postLikes={photo.likes} user={user}/>
+                </Skeleton>
+            : profilePicUrl !== null && username !== null? 
                 <>
                     <Header username={username} profilePic={profilePicUrl}/>
                     <img 

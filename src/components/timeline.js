@@ -4,8 +4,9 @@ import Post from './post';
 
 export default function Timeline({user}) {
     const [photos, setPhotos] = useState(null);
+    const [numPhotos, setNumPhotos] = useState(0);
     let sortedPhotos = [];
-
+    
     useEffect(() => {
         let following = [];
         let followingPhotos = [];
@@ -19,10 +20,14 @@ export default function Timeline({user}) {
             // Get the photos for each photographer that the user follows
             for( const photographer of following ) {
                 let photos = await getAllPhotographerPosts(photographer);
+                if (photos.length === 0) {
+                    continue;
+                }
+                
                 followingPhotos.push(photos);
             }
-
             setPhotos(followingPhotos);
+            setNumPhotos(followingPhotos.length);
         }
 
         getPhotos();
@@ -48,9 +53,14 @@ export default function Timeline({user}) {
 
     return(
         <div className="h-screen overflow-y-auto pb-8">
-            {photos !== null ? 
+            { photos !== null && numPhotos !== 0? 
                 <TimelinePhotos />
-            : null}
+            : 
+                <>
+                    <p className="text-2xl text-center mt-12">No posts to display. </p>
+                    <p className="text-2xl text-center mt-8">Follow a photographer with posts to view them here</p>
+                </>
+            }
         </div>
     );
 }

@@ -84,7 +84,7 @@ export default function Dashboard() {
                                     </>
                                 : photoshoots.length === 0 ? 
 
-                                <p className="text-2xl text-center">You have no confirmed photoshoots to display</p>
+                                <p className="text-2xl text-center">No confirmed photoshoots to display</p>
 
                                 : photoshoots !== null ?
                                     photoshoots.map((photoshoot) => {

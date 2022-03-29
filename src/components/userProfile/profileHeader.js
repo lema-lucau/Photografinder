@@ -170,17 +170,17 @@ export default function ProfileHeader({user}) {
             <div className="flex flex-col justify-around py-6">
                 <p className="text-lg italic pt-2">{user.username}</p>
                 <p className="font-bold pt-4">{`${user.firstName} ${user.lastName}`}</p>
-                <p className="pt-4">{user.bio}</p>
+                <p className="pt-4">{user.bio === "" ? "No user bio" : user.bio}</p>
 
                 {user?.type === "Photographer" ?
                     <>
                         <p className="pt-4">
                         <span className="font-bold">Min rate: </span>
-                        &euro;{user.minRate}/hr
+                        {user.minRate === "" ? "Not specified" : `€${user.minRate}/hr`}
                         </p>
                         <p className="pt-4">
                             <span className="font-bold">Location: </span>
-                            {user.location}
+                            {user.location === "" ? "Not specified" : user.location}
                         </p>
                         <p className="pt-4">
                             <span className="font-bold">{numPhotos}</span> {numPhotos === 1 ? "Photo" : "Photos"},

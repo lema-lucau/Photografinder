@@ -102,7 +102,7 @@ export default function Photoshoots() {
 
                             : scheduledPhotoshoots.length === 0 ?
 
-                            <p className="text-2xl text-center">You have no confirmed photoshoots</p>
+                            <p className="text-2xl text-center">No confirmed photoshoots</p>
 
                             : scheduledPhotoshoots !== null ?
                                 scheduledPhotoshoots.map((photoshoot) => {
@@ -136,7 +136,7 @@ export default function Photoshoots() {
 
                             : pendingPhotoshoots.length === 0 ?
 
-                            <p className="text-2xl text-center">You have no pending photoshoots</p>
+                            <p className="text-2xl text-center">No pending photoshoots</p>
 
                             : pendingPhotoshoots !== null ?
                                 pendingPhotoshoots.map((photoshoot) => {
