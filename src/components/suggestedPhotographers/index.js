@@ -10,8 +10,11 @@ import DisplayPhotographer from "./displayPhotographer";
 export default function SuggestedPhotographers({user}) {
     const [photographers, setPhotographers] = useState(null);
     const [userDetails, setUserDetails] = useState(null);
+    let shuffledPhotographers = [];
 
     useEffect(() => {        
+        document.title = "Suggestions";
+
         const getUserDetails = async () => {
             const returnedUser = await getUserByUserId(user.uid);
             setUserDetails(returnedUser);
@@ -19,7 +22,16 @@ export default function SuggestedPhotographers({user}) {
 
         const getPhotographers = async () => {
             const returnedPhotographers = await getUserNotFollowingPhotographers(user.uid);
-            setPhotographers(returnedPhotographers);
+
+            // Shuffle list of photographers (Fisher-Yates algorithm)
+            while (returnedPhotographers.length) {
+                let index =  Math.floor(Math.random() * returnedPhotographers.length);
+                let photographer = returnedPhotographers.splice(index, 1);
+
+                shuffledPhotographers.push(photographer[0]);
+            }
+
+            setPhotographers(shuffledPhotographers);
         }
 
         getUserDetails();
