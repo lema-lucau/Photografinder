@@ -5,13 +5,14 @@ import { getUserByUserId, getUserByUsername } from "../services/users";
 import { createPhotoshoot } from "../services/photoshoots";
 import { v4 as uuidv4 } from "uuid";
 import { PHOTOSHOOTS } from "../constants/routes";
-import { concatTime, formatDate, isUserOccupied } from "../helpers/photoshootFunctions";
+import { concatTime, formatDate, isUserOccupied, isValidTime } from "../helpers/photoshootFunctions";
 
 export default function BookingForm() {
     const {username} = useParams();
     const [profileUser, setProfileUser] = useState(null);
     const [loggedInUser, setLoggedInUser] = useState(null);
     const [photoshootsExists, setPhotoshootExists] = useState(null);
+    const [error, setError] = useState("");
 
     // Form elements
     const [date, setDate] = useState(null);
@@ -44,6 +45,7 @@ export default function BookingForm() {
         event.preventDefault();
 
         let result = await isUserOccupied(profileUser.uid, date, fromTime, toTime);
+        const validTime = isValidTime(date, fromTime, toTime);
 
         // If result photoshoot contains a photoshoot, the photographer is booked for that time
         // An error message will display
@@ -52,6 +54,11 @@ export default function BookingForm() {
             return;
         } else {
             setPhotoshootExists(null);
+        }
+
+        if (!validTime) {
+            setError("Invalid time range. End time must be greater than start time");
+            return;
         }
 
         const photoshootDetails = {
@@ -117,6 +124,8 @@ export default function BookingForm() {
                 >
                 </textarea>
             </div>
+
+            <p className="text-center text-red-500 mb-4">{error}</p>
 
             {photoshootsExists?.id ? 
                 <div className="text-center text-red-500 mb-4">

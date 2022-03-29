@@ -182,16 +182,10 @@ export default function ProfileHeader({user}) {
                             <span className="font-bold">Location: </span>
                             {user.location === "" ? "Not specified" : user.location}
                         </p>
-                        {!numPhotos ?
-                            <Skeleton className="w-2/5 mt-4" height={16} />
-                        :
-                            <>
-                                <p className="pt-4">
-                                    <span className="font-bold">{numPhotos}</span> {numPhotos === 1 ? "Photo" : "Photos"},
-                                    <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
-                                </p>
-                            </>
-                        }
+                        <p className="pt-4">
+                            <span className="font-bold">{numPhotos}</span> {numPhotos === 1 ? "Photo" : "Photos"},
+                            <span className="font-bold"> {user.followers.length}</span> {user.followers.length === 1 ? 'Follower' : 'Followers'}
+                        </p>
                     </>
                     : null
                 }

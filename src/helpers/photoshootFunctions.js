@@ -52,3 +52,14 @@ export const photoshootFinishedOrExpired = async (id, date, endTime, status) => 
         await updatePhotoshootStatus(id, COMPLETED);
     }
 } 
+
+export const isValidTime = (date, startTime, endTime) => {
+    const startTimeDate = new Date(`${date}T${startTime}`);
+    const endTimeDate = new Date(`${date}T${endTime}`);
+
+    if (endTimeDate < startTimeDate) {
+        return false;
+    } else {
+        return true;
+    }
+}
