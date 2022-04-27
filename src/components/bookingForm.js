@@ -79,7 +79,7 @@ export default function BookingForm() {
     }
 
     return(
-        <form onSubmit={handleBooking} method="POST" className="w-5/6 mx-auto px-24 py-10 border border-black rounded-3xl">
+        <form onSubmit={handleBooking} method="POST" className="w-5/6 mx-auto px-24 py-10 border border-black rounded-3xl bg-sky-50">
             <h1 className="text-lg flex justify-center">
                 <span className="font-bold pr-4">Make a booking with:</span>{username}
             </h1>
